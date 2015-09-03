@@ -1,0 +1,57 @@
+﻿zh_CN=简体中文
+Language=语言选择
+
+File(&F)=文件(&F)
+Open=打开
+Open Inside=在本窗口打开
+Open Outside=在新窗口打开
+Split File...=分割文件...
+Combine File...=合并文件...
+Properties...=属性...
+Create Folder...=新建文件夹...
+Create File...=新建文件...
+Link...=链接...
+Exit(&X)=退出(&X)
+
+Edit(&E)=编辑(&E)
+Rename=重命名
+Copy To...=复制到...
+Move To...=移动到...
+Delete=删除
+Select All=全选
+Invert Select=反选
+Select By Type=按类型选择
+Deselect By Type=取消按类型选择
+
+View(&V)=视图(&V)
+Large Icons=大图标
+Small Icons=小图标
+List=列表
+Details=详细
+Name=文件名
+Type=类型
+Date=日期
+Size=大小
+Unsorted=未排序
+Up One Level=返回上级目录
+Fresh=刷新
+
+Tools(&T)=工具(&T)
+Options...=选项...
+Benchmark...=基准测试...
+
+Help(&H)=帮助(&H)
+Open Help...=打开帮助...
+About FW Zip...=关于 FW Zip...
+
+Add=添加
+Extract=提取
+Test=测试
+Copy=复制
+Move=移动
+Delete=删除
+Info=信息
+
+Name=名称
+
+{0} object(s) selected=选定 {0} 个项目

@@ -2,8 +2,17 @@
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="FW_Zip.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
-    <Setting Name="Language" Type="System.String" Scope="Application">
+    <Setting Name="Language" Type="System.String" Scope="User">
       <Value Profile="(Default)">zh_CN</Value>
+    </Setting>
+    <Setting Name="LastViewDir" Type="System.String" Scope="User">
+      <Value Profile="(Default)">DRIVE</Value>
+    </Setting>
+    <Setting Name="ListType" Type="System.Byte" Scope="User">
+      <Value Profile="(Default)">3</Value>
+    </Setting>
+    <Setting Name="SortMode" Type="System.Byte" Scope="User">
+      <Value Profile="(Default)">1</Value>
     </Setting>
   </Settings>
 </SettingsFile>
