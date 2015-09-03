@@ -472,7 +472,7 @@
             // optionsToolStripMenuItem
             // 
             this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
-            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(150, 22);
             this.optionsToolStripMenuItem.Text = "Options...";
             this.optionsToolStripMenuItem.Click += new System.EventHandler(this.optionsToolStripMenuItem_Click);
             // 
@@ -481,13 +481,13 @@
             this.languageToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.englishToolStripMenuItem});
             this.languageToolStripMenuItem.Name = "languageToolStripMenuItem";
-            this.languageToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.languageToolStripMenuItem.Size = new System.Drawing.Size(150, 22);
             this.languageToolStripMenuItem.Text = "Language";
             // 
             // englishToolStripMenuItem
             // 
             this.englishToolStripMenuItem.Name = "englishToolStripMenuItem";
-            this.englishToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.englishToolStripMenuItem.Size = new System.Drawing.Size(117, 22);
             this.englishToolStripMenuItem.Tag = "en_US";
             this.englishToolStripMenuItem.Text = "English";
             this.englishToolStripMenuItem.Click += new System.EventHandler(this.languageSubMenuToolStripMenuItem_Click);
@@ -495,12 +495,12 @@
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(149, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(147, 6);
             // 
             // benchmarkTestToolStripMenuItem
             // 
             this.benchmarkTestToolStripMenuItem.Name = "benchmarkTestToolStripMenuItem";
-            this.benchmarkTestToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.benchmarkTestToolStripMenuItem.Size = new System.Drawing.Size(150, 22);
             this.benchmarkTestToolStripMenuItem.Text = "Benchmark...";
             this.benchmarkTestToolStripMenuItem.Click += new System.EventHandler(this.basicTestToolStripMenuItem_Click);
             // 
@@ -517,7 +517,7 @@
             // 
             this.openHelpToolStripMenuItem.Name = "openHelpToolStripMenuItem";
             this.openHelpToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F1;
-            this.openHelpToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
+            this.openHelpToolStripMenuItem.Size = new System.Drawing.Size(199, 22);
             this.openHelpToolStripMenuItem.Text = "Open Help...";
             this.openHelpToolStripMenuItem.Click += new System.EventHandler(this.openHelpToolStripMenuItem_Click);
             // 
