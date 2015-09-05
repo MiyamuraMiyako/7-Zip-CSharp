@@ -716,8 +716,10 @@
             // listFiles
             // 
             this.listFiles.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.listFiles.Font = new System.Drawing.Font("微软雅黑", 9F);
             this.listFiles.FullRowSelect = true;
             this.listFiles.GridLines = true;
+            this.listFiles.HideSelection = false;
             this.listFiles.LabelEdit = true;
             this.listFiles.Location = new System.Drawing.Point(0, 115);
             this.listFiles.Name = "listFiles";

@@ -81,7 +81,7 @@ namespace FW_Zip
             listFiles.LargeImageList = largeIcon;
             smallIcon.ColorDepth = ColorDepth.Depth32Bit;
             largeIcon.ColorDepth = ColorDepth.Depth32Bit;
-            smallIcon.ImageSize = new Size(16,16);
+            smallIcon.ImageSize = new Size(16, 16);
             largeIcon.ImageSize = new Size(48, 48);
 
             Log.CleanLog();
@@ -458,11 +458,11 @@ namespace FW_Zip
 
         private void createFolderToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if(curList==ListType.Dir)
+            if (curList == ListType.Dir)
             {
-                string name=Interaction.InputBox("Please input new folder name:", "New Folder", "New Folder");
+                string name = Interaction.InputBox("Please input new folder name:", "New Folder", "New Folder");
                 DirectoryInfo di = new DirectoryInfo(curDir.FullName + Path.DirectorySeparatorChar + name);
-                if(di.Exists)
+                if (di.Exists)
                 {
                     MessageBox.Show("Directory is exist");
                     return;
@@ -477,7 +477,7 @@ namespace FW_Zip
             {
                 string name = Interaction.InputBox("Please input new folder name:", "New File", "New File");
                 FileInfo fi = new FileInfo(curDir.FullName + Path.DirectorySeparatorChar + name);
-                if(fi.Exists)
+                if (fi.Exists)
                 {
                     MessageBox.Show("File is exist!");
                 }
@@ -673,7 +673,7 @@ namespace FW_Zip
 
         private void openHelpToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Do you really need help?","Help",MessageBoxButtons.OK,MessageBoxIcon.Information);
+            MessageBox.Show("Do you really need help?", "Help", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
@@ -748,7 +748,7 @@ namespace FW_Zip
 
         private void buttonUpward_Click(object sender, EventArgs e)
         {
-            if(curList==ListType.Dir)
+            if (curList == ListType.Dir)
             {
                 if (curDir.Parent != null)
                 {
@@ -761,7 +761,7 @@ namespace FW_Zip
                     FillList();
                 }
             }
-            
+
             ChangeMenuAndToolbarStatus();
         }
 
