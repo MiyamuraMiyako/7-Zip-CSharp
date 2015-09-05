@@ -14,6 +14,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Microsoft.VisualBasic;
 
 namespace FW_Zip
 {
@@ -339,7 +340,7 @@ namespace FW_Zip
             return ShellEx.GetIconFromPath(file, ShellEx.IconSizeEnum.ExtraLargeIcon);
         }
 
-        private void ChangeMenuStatus()
+        private void ChangeMenuAndToolbarStatus()
         {
             //
             upOneLevelToolStripMenuItem.Enabled = true;
@@ -351,7 +352,7 @@ namespace FW_Zip
                 moveToToolStripMenuItem.Enabled = false;
                 deleteToolStripMenuItem.Enabled = false;
             }
-            else if(curList==ListType.Dir)
+            else if (curList == ListType.Dir)
             {
                 renameToolStripMenuItem.Enabled = true;
                 copyToToolStripMenuItem.Enabled = true;
@@ -368,6 +369,14 @@ namespace FW_Zip
                 combineFileToolStripMenuItem.Enabled = true;
                 propertiesToolStripMenuItem.Enabled = true;
                 linkToolStripMenuItem.Enabled = true;
+                //
+                toolAdd.Enabled = true;
+                toolExtract.Enabled = true;
+                toolTest.Enabled = true;
+                toolCopy.Enabled = true;
+                toolMove.Enabled = true;
+                toolDelete.Enabled = true;
+                toolInfo.Enabled = true;
             }
             else
             {
@@ -379,6 +388,14 @@ namespace FW_Zip
                 propertiesToolStripMenuItem.Enabled = false;
                 linkToolStripMenuItem.Enabled = false;
                 //
+                toolAdd.Enabled = false;
+                toolExtract.Enabled = false;
+                toolTest.Enabled = false;
+                toolCopy.Enabled = false;
+                toolMove.Enabled = false;
+                toolDelete.Enabled = false;
+                toolInfo.Enabled = false;
+                //
                 renameToolStripMenuItem.Enabled = false;
                 copyToToolStripMenuItem.Enabled = false;
                 moveToToolStripMenuItem.Enabled = false;
@@ -389,24 +406,24 @@ namespace FW_Zip
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
             EnterPath(listFiles.SelectedItems[0].Text);
-            ChangeMenuStatus();
+            ChangeMenuAndToolbarStatus();
         }
 
         private void openInsideToolStripMenuItem_Click(object sender, EventArgs e)
         {
             EnterPath(listFiles.SelectedItems[0].Text);
-            ChangeMenuStatus();
+            ChangeMenuAndToolbarStatus();
         }
 
         private void openOutsideToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if(curList==ListType.Computer)
+            if (curList == ListType.Computer)
             {
                 Process.Start(listFiles.SelectedItems[0].Text);
             }
-            else if(curList==ListType.Dir)
+            else if (curList == ListType.Dir)
             {
-                Process.Start(curDir.FullName+Path.DirectorySeparatorChar+ listFiles.SelectedItems[0].Text);
+                Process.Start(curDir.FullName + Path.DirectorySeparatorChar + listFiles.SelectedItems[0].Text);
             }
         }
 
@@ -440,11 +457,31 @@ namespace FW_Zip
 
         private void createFolderToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if(curList==ListType.Dir)
+            {
+                string name=Interaction.InputBox("Please input new folder name:", "New Folder", "New Folder");
+                DirectoryInfo di = new DirectoryInfo(curDir.FullName + Path.DirectorySeparatorChar + name);
+                if(di.Exists)
+                {
+                    MessageBox.Show("Directory is exist");
+                    return;
+                }
+                di.Create();
+            }
         }
 
         private void createFileToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("CreateFile");
+            if (curList == ListType.Dir)
+            {
+                string name = Interaction.InputBox("Please input new folder name:", "New File", "New File");
+                FileInfo fi = new FileInfo(curDir.FullName + Path.DirectorySeparatorChar + name);
+                if(fi.Exists)
+                {
+                    MessageBox.Show("File is exist!");
+                }
+                fi.Create();
+            }
         }
 
         private void linkToolStripMenuItem_Click(object sender, EventArgs e)
@@ -474,9 +511,9 @@ namespace FW_Zip
 
         private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if(curList==ListType.Dir)
+            if (curList == ListType.Dir)
             {
-                for(int i=0;i<listFiles.SelectedItems.Count;i++)
+                for (int i = 0; i < listFiles.SelectedItems.Count; i++)
                 {
                     DirectoryInfo di = new DirectoryInfo(curDir.FullName + Path.DirectorySeparatorChar + listFiles.SelectedItems[i].Text);
                     FileInfo fi = new FileInfo(curDir.FullName + Path.DirectorySeparatorChar + listFiles.SelectedItems[i].Text);
@@ -615,7 +652,7 @@ namespace FW_Zip
                 curList = ListType.Computer;
                 FillList();
             }
-            ChangeMenuStatus();
+            ChangeMenuAndToolbarStatus();
         }
 
         private void freshToolStripMenuItem_Click(object sender, EventArgs e)
@@ -670,33 +707,67 @@ namespace FW_Zip
 
         private void toolDelete_Click(object sender, EventArgs e)
         {
-
+            if (curList == ListType.Dir)
+            {
+                for (int i = 0; i < listFiles.SelectedItems.Count; i++)
+                {
+                    DirectoryInfo di = new DirectoryInfo(curDir.FullName + Path.DirectorySeparatorChar + listFiles.SelectedItems[i].Text);
+                    FileInfo fi = new FileInfo(curDir.FullName + Path.DirectorySeparatorChar + listFiles.SelectedItems[i].Text);
+                    //
+                    if (di.Exists)
+                    {
+                        di.Delete(true);//may be need to tip user?
+                    }
+                    else if (fi.Exists)
+                    {
+                        fi.Delete();
+                    }
+                }
+                FillList();
+            }
         }
 
         private void toolInfo_Click(object sender, EventArgs e)
         {
-
+            SHELLEXECUTEINFO info = new SHELLEXECUTEINFO();
+            info.cbSize = Marshal.SizeOf(info);
+            info.lpVerb = "properties";
+            if (curList == ListType.Computer)
+            {
+                info.lpFile = (listFiles.SelectedItems[0].Text);
+            }
+            else if (curList == ListType.Dir)
+            {
+                info.lpFile = (curDir.FullName + Path.DirectorySeparatorChar + listFiles.SelectedItems[0].Text);
+            }
+            info.nShow = SW_SHOW;
+            info.fMask = SEE_MASK_INVOKEIDLIST;
+            ShellExecuteEx(ref info);
         }
 
         private void buttonUpward_Click(object sender, EventArgs e)
         {
-            if (curDir.Parent != null)
+            if(curList==ListType.Dir)
             {
-                curDir = curDir.Parent;
-                EnterPath("");
+                if (curDir.Parent != null)
+                {
+                    curDir = curDir.Parent;
+                    EnterPath("");
+                }
+                else
+                {
+                    curList = ListType.Computer;
+                    FillList();
+                }
             }
-            else
-            {
-                curList = ListType.Computer;
-                FillList();
-            }
-            ChangeMenuStatus();
+            
+            ChangeMenuAndToolbarStatus();
         }
 
         private void listFiles_SelectedIndexChanged(object sender, EventArgs e)
         {
             statusLblSelected.Text = string.Format(I18N.GetString("{0} object(s) selected"), listFiles.SelectedItems.Count);
-            ChangeMenuStatus();
+            ChangeMenuAndToolbarStatus();
         }
 
         private void listFiles_MouseDoubleClick(object sender, MouseEventArgs e)
@@ -705,7 +776,7 @@ namespace FW_Zip
             if (lvi != null)
             {
                 EnterPath(lvi.Text);
-                ChangeMenuStatus();
+                ChangeMenuAndToolbarStatus();
             }
         }
 

@@ -477,7 +477,7 @@
             // optionsToolStripMenuItem
             // 
             this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
-            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(150, 22);
+            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.optionsToolStripMenuItem.Text = "Options...";
             this.optionsToolStripMenuItem.Click += new System.EventHandler(this.optionsToolStripMenuItem_Click);
             // 
@@ -486,7 +486,7 @@
             this.languageToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.englishToolStripMenuItem});
             this.languageToolStripMenuItem.Name = "languageToolStripMenuItem";
-            this.languageToolStripMenuItem.Size = new System.Drawing.Size(150, 22);
+            this.languageToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.languageToolStripMenuItem.Text = "Language";
             // 
             // englishToolStripMenuItem
@@ -500,12 +500,12 @@
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(147, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(149, 6);
             // 
             // benchmarkTestToolStripMenuItem
             // 
             this.benchmarkTestToolStripMenuItem.Name = "benchmarkTestToolStripMenuItem";
-            this.benchmarkTestToolStripMenuItem.Size = new System.Drawing.Size(150, 22);
+            this.benchmarkTestToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.benchmarkTestToolStripMenuItem.Text = "Benchmark...";
             this.benchmarkTestToolStripMenuItem.Click += new System.EventHandler(this.basicTestToolStripMenuItem_Click);
             // 
@@ -552,6 +552,7 @@
             // 
             // toolAdd
             // 
+            this.toolAdd.Enabled = false;
             this.toolAdd.Image = ((System.Drawing.Image)(resources.GetObject("toolAdd.Image")));
             this.toolAdd.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolAdd.Name = "toolAdd";
@@ -562,6 +563,7 @@
             // 
             // toolExtract
             // 
+            this.toolExtract.Enabled = false;
             this.toolExtract.Image = ((System.Drawing.Image)(resources.GetObject("toolExtract.Image")));
             this.toolExtract.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolExtract.Name = "toolExtract";
@@ -572,6 +574,7 @@
             // 
             // toolTest
             // 
+            this.toolTest.Enabled = false;
             this.toolTest.Image = ((System.Drawing.Image)(resources.GetObject("toolTest.Image")));
             this.toolTest.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolTest.Name = "toolTest";
@@ -582,6 +585,7 @@
             // 
             // toolCopy
             // 
+            this.toolCopy.Enabled = false;
             this.toolCopy.Image = ((System.Drawing.Image)(resources.GetObject("toolCopy.Image")));
             this.toolCopy.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolCopy.Name = "toolCopy";
@@ -592,6 +596,7 @@
             // 
             // toolMove
             // 
+            this.toolMove.Enabled = false;
             this.toolMove.Image = ((System.Drawing.Image)(resources.GetObject("toolMove.Image")));
             this.toolMove.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolMove.Name = "toolMove";
@@ -602,6 +607,7 @@
             // 
             // toolDelete
             // 
+            this.toolDelete.Enabled = false;
             this.toolDelete.Image = ((System.Drawing.Image)(resources.GetObject("toolDelete.Image")));
             this.toolDelete.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolDelete.Name = "toolDelete";
@@ -612,6 +618,7 @@
             // 
             // toolInfo
             // 
+            this.toolInfo.Enabled = false;
             this.toolInfo.Image = ((System.Drawing.Image)(resources.GetObject("toolInfo.Image")));
             this.toolInfo.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolInfo.Name = "toolInfo";
