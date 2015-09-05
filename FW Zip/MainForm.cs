@@ -1,15 +1,9 @@
 ﻿using FW_Zip.Utils;
 using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.ComponentModel;
-using System.Configuration;
-using System.Data;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Resources;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -83,12 +77,11 @@ namespace FW_Zip
             FillList();
             UpdateLanguage();
 
-
             listFiles.SmallImageList = smallIcon;
             listFiles.LargeImageList = largeIcon;
             smallIcon.ColorDepth = ColorDepth.Depth32Bit;
             largeIcon.ColorDepth = ColorDepth.Depth32Bit;
-            smallIcon.ImageSize = new Size(20, 20);
+            smallIcon.ImageSize = new Size(16,16);
             largeIcon.ImageSize = new Size(48, 48);
 
             Log.CleanLog();
@@ -262,9 +255,6 @@ namespace FW_Zip
                 case ListType.Computer:
                     foreach (DriveInfo drive in DriveInfo.GetDrives())
                     {
-                        largeIcon.Images.Add(GetLargeIcon(drive.Name));
-                        smallIcon.Images.Add(GetSmallIcon(drive.Name));
-
                         ListViewItem lvi = new ListViewItem();
                         lvi.SubItems[0].Text = drive.Name;
                         if (drive.IsReady)
@@ -274,13 +264,15 @@ namespace FW_Zip
                             lvi.SubItems.Add(drive.DriveType.ToString());
                             lvi.SubItems.Add(drive.VolumeLabel);
                             lvi.SubItems.Add(drive.DriveFormat);
-                            lvi.ImageIndex = index++;
                             //
                             uint cluster, bt, c, d;
                             GetDiskFreeSpace(drive.Name, out cluster, out bt, out c, out d);
-                            //
                             lvi.SubItems.Add(Convert.ToString(cluster * bt));
                         }
+                        largeIcon.Images.Add(GetLargeIcon(drive.Name));
+                        smallIcon.Images.Add(GetSmallIcon(drive.Name));
+                        lvi.ImageIndex = index++;
+
                         listFiles.Items.Add(lvi);
                     }
                     textAddress.Text = "";
@@ -288,13 +280,14 @@ namespace FW_Zip
                 case ListType.Dir:
                     foreach (DirectoryInfo d in curDir.GetDirectories())
                     {
-                        largeIcon.Images.Add(GetLargeIcon(d.FullName));
-                        smallIcon.Images.Add(GetSmallIcon(d.FullName));
-
                         if (d.Attributes.HasFlag(FileAttributes.Hidden))
                         {
                             continue;
                         }
+
+                        largeIcon.Images.Add(GetLargeIcon(d.FullName));
+                        smallIcon.Images.Add(GetSmallIcon(d.FullName));
+
                         ListViewItem lvi = new ListViewItem();
                         lvi.SubItems[0].Text = d.Name;
                         lvi.SubItems.Add("");
@@ -307,14 +300,15 @@ namespace FW_Zip
 
                     foreach (FileInfo f in curDir.GetFiles())
                     {
-                        largeIcon.Images.Add(GetLargeIcon(f.FullName));
-                        smallIcon.Images.Add(GetSmallIcon(f.FullName));
-
                         if (f.Attributes.HasFlag(FileAttributes.Hidden))
                         {
                             //add setting to set display hide file.
                             continue;
                         }
+
+                        largeIcon.Images.Add(GetLargeIcon(f.FullName));
+                        smallIcon.Images.Add(GetSmallIcon(f.FullName));
+
                         ListViewItem lvi = new ListViewItem();
                         lvi.SubItems[0].Text = f.Name;
                         lvi.SubItems.Add(Util.HommizationSize(f.Length));
@@ -339,12 +333,12 @@ namespace FW_Zip
 
         private Icon GetSmallIcon(string file)
         {
-            return ShellEx.GetIconFromPath(file, ShellEx.IconSizeEnum.ExtraLargeIcon);
+            return ShellEx.GetIconFromPath(file, ShellEx.IconSizeEnum.SmallIcon16);
         }
 
         private Icon GetLargeIcon(string file)
         {
-            return ShellEx.GetIconFromPath(file, ShellEx.IconSizeEnum.ExtraLargeIcon);
+            return ShellEx.GetIconFromPath(file, ShellEx.IconSizeEnum.LargeIcon48);
         }
 
         private void ChangeMenuAndToolbarStatus()

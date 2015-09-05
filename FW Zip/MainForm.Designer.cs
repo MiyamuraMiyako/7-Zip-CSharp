@@ -96,9 +96,9 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.textAddress = new System.Windows.Forms.TextBox();
             this.buttonUpward = new System.Windows.Forms.Button();
-            this.listFiles = new System.Windows.Forms.ListView();
             this.listFilesContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripMenuItemOpen = new System.Windows.Forms.ToolStripMenuItem();
+            this.listFiles = new System.Windows.Forms.ListView();
             this.menu.SuspendLayout();
             this.toolbar.SuspendLayout();
             this.statusbar.SuspendLayout();
@@ -699,23 +699,6 @@
             this.buttonUpward.UseVisualStyleBackColor = true;
             this.buttonUpward.Click += new System.EventHandler(this.buttonUpward_Click);
             // 
-            // listFiles
-            // 
-            this.listFiles.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.listFiles.FullRowSelect = true;
-            this.listFiles.GridLines = true;
-            this.listFiles.HideSelection = false;
-            this.listFiles.LabelEdit = true;
-            this.listFiles.Location = new System.Drawing.Point(0, 115);
-            this.listFiles.Name = "listFiles";
-            this.listFiles.ShowGroups = false;
-            this.listFiles.Size = new System.Drawing.Size(681, 236);
-            this.listFiles.Sorting = System.Windows.Forms.SortOrder.Ascending;
-            this.listFiles.TabIndex = 2;
-            this.listFiles.UseCompatibleStateImageBehavior = false;
-            this.listFiles.View = System.Windows.Forms.View.Details;
-            this.listFiles.SelectedIndexChanged += new System.EventHandler(this.listFiles_SelectedIndexChanged);
-            // 
             // listFilesContextMenuStrip
             // 
             this.listFilesContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -729,6 +712,20 @@
             this.toolStripMenuItemOpen.Name = "toolStripMenuItemOpen";
             this.toolStripMenuItemOpen.Size = new System.Drawing.Size(108, 22);
             this.toolStripMenuItemOpen.Text = "Open";
+            // 
+            // listFiles
+            // 
+            this.listFiles.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.listFiles.FullRowSelect = true;
+            this.listFiles.GridLines = true;
+            this.listFiles.LabelEdit = true;
+            this.listFiles.Location = new System.Drawing.Point(0, 115);
+            this.listFiles.Name = "listFiles";
+            this.listFiles.ShowGroups = false;
+            this.listFiles.Size = new System.Drawing.Size(681, 236);
+            this.listFiles.TabIndex = 4;
+            this.listFiles.UseCompatibleStateImageBehavior = false;
+            this.listFiles.View = System.Windows.Forms.View.Details;
             // 
             // MainForm
             // 
@@ -784,7 +781,6 @@
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.TextBox textAddress;
         private System.Windows.Forms.Button buttonUpward;
-        private System.Windows.Forms.ListView listFiles;
         private System.Windows.Forms.ToolStripStatusLabel statusLblSelected;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel2;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel3;
@@ -829,6 +825,7 @@
         private System.Windows.Forms.ToolStripMenuItem englishToolStripMenuItem;
         private System.Windows.Forms.ContextMenuStrip listFilesContextMenuStrip;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemOpen;
+        private System.Windows.Forms.ListView listFiles;
     }
 }
 
