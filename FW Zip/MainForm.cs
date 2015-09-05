@@ -5,6 +5,7 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Configuration;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -25,22 +26,57 @@ namespace FW_Zip
                                             out uint lpNumberOfFreeClusters,
                                             out uint lpTotalNumberOfClusters);
 
+        [StructLayout(LayoutKind.Sequential)]
+        public struct SHELLEXECUTEINFO
+        {
+            public int cbSize;
+            public uint fMask;
+            public IntPtr hwnd;
+            [MarshalAs(UnmanagedType.LPStr)]
+            public string lpVerb;
+            [MarshalAs(UnmanagedType.LPStr)]
+            public string lpFile;
+            [MarshalAs(UnmanagedType.LPStr)]
+            public string lpParameters;
+            [MarshalAs(UnmanagedType.LPStr)]
+            public string lpDirectory;
+            public int nShow;
+            public IntPtr hInstApp;
+            public IntPtr lpIDList;
+            [MarshalAs(UnmanagedType.LPStr)]
+            public string lpClass;
+            public IntPtr hkeyClass;
+            public uint dwHotKey;
+            public IntPtr hIcon;
+            public IntPtr hProcess;
+        }
+
+        private const int SW_SHOW = 5;
+        private const uint SEE_MASK_INVOKEIDLIST = 12;
+
+        [DllImport("shell32.dll")]
+        static extern bool ShellExecuteEx(ref SHELLEXECUTEINFO lpExecInfo);
+
         public enum ListType
         {
             Computer, Dir, Package
         }
 
         //
-        public static ListType CurList = ListType.Computer;
-        public static DirectoryInfo CurDir = new DirectoryInfo(Environment.ExpandEnvironmentVariables("%SystemDrive%"));
+        public static ListType curList = ListType.Computer;
+        public static DirectoryInfo curDir = new DirectoryInfo(Environment.ExpandEnvironmentVariables("%SystemDrive%"));
+        public static ImageList smallIcon = new ImageList();
+        public static ImageList largeIcon = new ImageList();
 
         public MainForm()
         {
             InitializeComponent();
+            listFiles.MouseDoubleClick += new MouseEventHandler(listFiles_MouseDoubleClick);
+            listFiles.MouseClick += new MouseEventHandler(listFiles_MouseClick);
             InitLanguageFilesAndFillLanguageMenu();//fill language menu
             I18N.LoadLanguage();
-            UpdateLanguage();
             FillList();
+            UpdateLanguage();
             Log.CleanLog();
         }
 
@@ -111,67 +147,116 @@ namespace FW_Zip
             toolMove.Text = I18N.GetString("Move");
             toolDelete.Text = I18N.GetString("Delete");
             toolInfo.Text = I18N.GetString("Info");
-        }
-
-        private void SwitchListHeader()
-        {
-            listFiles.Clear();
-            switch (CurList)
+            //
+            switch (curList)
             {
                 case ListType.Computer:
+                    listFiles.Columns[0].Text = I18N.GetString("Name");
+                    listFiles.Columns[1].Text = I18N.GetString("Total Size");
+                    listFiles.Columns[2].Text = I18N.GetString("Free Size");
+                    listFiles.Columns[3].Text = I18N.GetString("Type");
+                    listFiles.Columns[4].Text = I18N.GetString("Label");
+                    listFiles.Columns[5].Text = I18N.GetString("File System");
+                    listFiles.Columns[6].Text = I18N.GetString("Cluster Size");
                     break;
                 case ListType.Dir:
+                    listFiles.Columns[0].Text = I18N.GetString("Name");
+                    listFiles.Columns[1].Text = I18N.GetString("Size");
+                    listFiles.Columns[2].Text = I18N.GetString("Modified");
+                    listFiles.Columns[3].Text = I18N.GetString("Create");
+                    listFiles.Columns[4].Text = I18N.GetString("Type");
                     break;
                 case ListType.Package:
                     break;
             }
         }
 
-        private void FillHeader()
+        private void EnterPath(string name)
         {
-            if (listFiles.View != View.Details)
-            {
-                return;
-            }
-            switch (CurList)
+            switch (curList)
             {
                 case ListType.Computer:
-                    listFiles.Columns.Add("Name");
-                    listFiles.Columns.Add("Total Size");
-                    listFiles.Columns.Add("Free Size");
-                    listFiles.Columns.Add("Type");
-                    listFiles.Columns.Add("Label");
-                    listFiles.Columns.Add("File System");
-                    listFiles.Columns.Add("Cluster Size");
+                    DriveInfo di = new DriveInfo(name);
+                    if (di.IsReady)
+                    {
+                        curList = ListType.Dir;
+                        curDir = new DirectoryInfo(name);
+                        FillList();
+                    }
                     break;
                 case ListType.Dir:
-                    listFiles.Columns.Add("Name");
-                    listFiles.Columns.Add("Size");
-                    listFiles.Columns.Add("Modified");
-                    listFiles.Columns.Add("Create");
-                    listFiles.Columns.Add("Type");
+                    DirectoryInfo dir = new DirectoryInfo(curDir.FullName + Path.DirectorySeparatorChar + name);
+                    FileInfo fi = new FileInfo(curDir.FullName + Path.DirectorySeparatorChar + name);
+                    if (dir.Exists)
+                    {
+                        curDir = dir;
+                        FillList();
+                    }
+                    else
+                    {
+                        //file open 
+                    }
                     break;
                 case ListType.Package:
-                    listFiles.Columns.Add("Name");
-                    listFiles.Columns.Add("Total Size");
-                    listFiles.Columns.Add("Free Size");
-                    listFiles.Columns.Add("Type");
-                    listFiles.Columns.Add("Label");
-                    listFiles.Columns.Add("File System");
-                    listFiles.Columns.Add("Cluster Size");
                     break;
             }
         }
 
         private void FillList()
         {
+            listFiles.BeginUpdate();
+            if (listFiles.View == View.Details)
+            {
+                listFiles.Columns.Clear();
+                switch (curList)
+                {
+                    case ListType.Computer:
+                        listFiles.Columns.Add(I18N.GetString("Name"));
+                        listFiles.Columns.Add(I18N.GetString("Total Size"));
+                        listFiles.Columns.Add(I18N.GetString("Free Size"));
+                        listFiles.Columns.Add(I18N.GetString("Type"));
+                        listFiles.Columns.Add(I18N.GetString("Label"));
+                        listFiles.Columns.Add(I18N.GetString("File System"));
+                        listFiles.Columns.Add(I18N.GetString("Cluster Size"));
+                        break;
+                    case ListType.Dir:
+                        listFiles.Columns.Add(I18N.GetString("Name"));
+                        listFiles.Columns.Add(I18N.GetString("Size"));
+                        listFiles.Columns.Add(I18N.GetString("Modified"));
+                        listFiles.Columns.Add(I18N.GetString("Create"));
+                        listFiles.Columns.Add(I18N.GetString("Type"));
+                        break;
+                    case ListType.Package:
+                        listFiles.Columns.Add(I18N.GetString("Name"));
+                        listFiles.Columns.Add(I18N.GetString("Total Size"));
+                        listFiles.Columns.Add(I18N.GetString("Free Size"));
+                        listFiles.Columns.Add(I18N.GetString("Type"));
+                        listFiles.Columns.Add(I18N.GetString("Label"));
+                        listFiles.Columns.Add(I18N.GetString("File System"));
+                        listFiles.Columns.Add(I18N.GetString("Cluster Size"));
+                        break;
+                }
+            }
+
             listFiles.Items.Clear();
-            FillHeader();
-            switch (CurList)
+            smallIcon.Images.Clear();
+            largeIcon.Images.Clear();
+            listFiles.SmallImageList = smallIcon;
+            listFiles.LargeImageList = largeIcon;
+            smallIcon.ColorDepth = ColorDepth.Depth32Bit;
+            largeIcon.ColorDepth = ColorDepth.Depth32Bit;
+            smallIcon.ImageSize = new Size(20, 20);
+            largeIcon.ImageSize = new Size(48, 48);
+
+            int index = 0;
+            switch (curList)
             {
                 case ListType.Computer:
                     foreach (DriveInfo drive in DriveInfo.GetDrives())
                     {
+                        largeIcon.Images.Add(GetLargeIcon(drive.Name));
+                        smallIcon.Images.Add(GetSmallIcon(drive.Name));
+
                         ListViewItem lvi = new ListViewItem();
                         lvi.SubItems[0].Text = drive.Name;
                         if (drive.IsReady)
@@ -181,19 +266,24 @@ namespace FW_Zip
                             lvi.SubItems.Add(drive.DriveType.ToString());
                             lvi.SubItems.Add(drive.VolumeLabel);
                             lvi.SubItems.Add(drive.DriveFormat);
+                            lvi.ImageIndex = index++;
                             //
                             uint cluster, bt, c, d;
-                            GetDiskFreeSpace(drive.Name,out cluster,out bt,out c,out d);
+                            GetDiskFreeSpace(drive.Name, out cluster, out bt, out c, out d);
                             //
-                            lvi.SubItems.Add((cluster*bt) +"");
+                            lvi.SubItems.Add(Convert.ToString(cluster * bt));
 
                         }
                         listFiles.Items.Add(lvi);
                     }
+                    textAddress.Text = "";
                     break;
                 case ListType.Dir:
-                    foreach (DirectoryInfo d in CurDir.EnumerateDirectories())
+                    foreach (DirectoryInfo d in curDir.GetDirectories())
                     {
+                        largeIcon.Images.Add(GetLargeIcon(d.FullName));
+                        smallIcon.Images.Add(GetSmallIcon(d.FullName));
+
                         if (d.Attributes.HasFlag(FileAttributes.Hidden))
                         {
                             continue;
@@ -203,12 +293,16 @@ namespace FW_Zip
                         lvi.SubItems.Add("");
                         lvi.SubItems.Add(d.LastWriteTime.ToString());
                         lvi.SubItems.Add(d.CreationTime.ToString());
+                        lvi.ImageIndex = index++;
                         lvi.Tag = d;
                         listFiles.Items.Add(lvi);
                     }
 
-                    foreach (FileInfo f in CurDir.EnumerateFiles())
+                    foreach (FileInfo f in curDir.GetFiles())
                     {
+                        largeIcon.Images.Add(GetLargeIcon(f.FullName));
+                        smallIcon.Images.Add(GetSmallIcon(f.FullName));
+
                         if (f.Attributes.HasFlag(FileAttributes.Hidden))
                         {
                             continue;
@@ -218,30 +312,102 @@ namespace FW_Zip
                         lvi.SubItems.Add(Util.HommizationSize(f.Length));
                         lvi.SubItems.Add(f.LastWriteTime.ToString());
                         lvi.SubItems.Add(f.CreationTime.ToString());
+                        lvi.ImageIndex = index++;
                         lvi.Tag = f;
                         listFiles.Items.Add(lvi);
                     }
-                    listFiles.EndUpdate();
-                    textAddress.Text = CurDir.FullName;
+                    textAddress.Text = curDir.FullName;
                     break;
                 case ListType.Package:
                     break;
             }
+
+            for (int i = 0; i < listFiles.Columns.Count; i++)
+            {
+                listFiles.Columns[i].Width = -1;
+            }
             listFiles.EndUpdate();
+        }
+
+        private Icon GetSmallIcon(string file)
+        {
+            return ShellEx.GetIconFromPath(file, ShellEx.IconSizeEnum.ExtraLargeIcon);
+        }
+
+        private Icon GetLargeIcon(string file)
+        {
+            return ShellEx.GetIconFromPath(file, ShellEx.IconSizeEnum.ExtraLargeIcon);
+        }
+
+        private void ChangeMenuStatus()
+        {
+            //
+            upOneLevelToolStripMenuItem.Enabled = true;
+            if (curList == ListType.Computer)
+            {
+                upOneLevelToolStripMenuItem.Enabled = false;
+                renameToolStripMenuItem.Enabled = false;
+                copyToToolStripMenuItem.Enabled = false;
+                moveToToolStripMenuItem.Enabled = false;
+                deleteToolStripMenuItem.Enabled = false;
+            }
+            else if(curList==ListType.Dir)
+            {
+                renameToolStripMenuItem.Enabled = true;
+                copyToToolStripMenuItem.Enabled = true;
+                moveToToolStripMenuItem.Enabled = true;
+                deleteToolStripMenuItem.Enabled = true;
+            }
+            //
+            if (listFiles.SelectedItems.Count > 0)
+            {
+                openToolStripMenuItem.Enabled = true;
+                openInsideToolStripMenuItem.Enabled = true;
+                openOutsideToolStripMenuItem.Enabled = true;
+                splitFileToolStripMenuItem.Enabled = true;
+                combineFileToolStripMenuItem.Enabled = true;
+                propertiesToolStripMenuItem.Enabled = true;
+                linkToolStripMenuItem.Enabled = true;
+            }
+            else
+            {
+                openToolStripMenuItem.Enabled = false;
+                openInsideToolStripMenuItem.Enabled = false;
+                openOutsideToolStripMenuItem.Enabled = false;
+                splitFileToolStripMenuItem.Enabled = false;
+                combineFileToolStripMenuItem.Enabled = false;
+                propertiesToolStripMenuItem.Enabled = false;
+                linkToolStripMenuItem.Enabled = false;
+                //
+                renameToolStripMenuItem.Enabled = false;
+                copyToToolStripMenuItem.Enabled = false;
+                moveToToolStripMenuItem.Enabled = false;
+                deleteToolStripMenuItem.Enabled = false;
+            }
         }
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            EnterPath(listFiles.SelectedItems[0].Text);
+            ChangeMenuStatus();
         }
 
         private void openInsideToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("OpenInside");
+            EnterPath(listFiles.SelectedItems[0].Text);
+            ChangeMenuStatus();
         }
 
         private void openOutsideToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("OpenOutside");
+            if(curList==ListType.Computer)
+            {
+                Process.Start(listFiles.SelectedItems[0].Text);
+            }
+            else if(curList==ListType.Dir)
+            {
+                Process.Start(curDir.FullName+Path.DirectorySeparatorChar+ listFiles.SelectedItems[0].Text);
+            }
         }
 
         private void splitFileToolStripMenuItem_Click(object sender, EventArgs e)
@@ -256,7 +422,20 @@ namespace FW_Zip
 
         private void propertiesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Properties");
+            SHELLEXECUTEINFO info = new SHELLEXECUTEINFO();
+            info.cbSize = Marshal.SizeOf(info);
+            info.lpVerb = "properties";
+            if (curList == ListType.Computer)
+            {
+                info.lpFile = (listFiles.SelectedItems[0].Text);
+            }
+            else if (curList == ListType.Dir)
+            {
+                info.lpFile = (curDir.FullName + Path.DirectorySeparatorChar + listFiles.SelectedItems[0].Text);
+            }
+            info.nShow = SW_SHOW;
+            info.fMask = SEE_MASK_INVOKEIDLIST;
+            ShellExecuteEx(ref info);
         }
 
         private void createFolderToolStripMenuItem_Click(object sender, EventArgs e)
@@ -280,7 +459,7 @@ namespace FW_Zip
 
         private void renameToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            listFiles.SelectedItems[0].BeginEdit();
         }
 
         private void copyToToolStripMenuItem_Click(object sender, EventArgs e)
@@ -295,17 +474,40 @@ namespace FW_Zip
 
         private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            if(curList==ListType.Dir)
+            {
+                for(int i=0;i<listFiles.SelectedItems.Count;i++)
+                {
+                    DirectoryInfo di = new DirectoryInfo(curDir.FullName + Path.DirectorySeparatorChar + listFiles.SelectedItems[i].Text);
+                    FileInfo fi = new FileInfo(curDir.FullName + Path.DirectorySeparatorChar + listFiles.SelectedItems[i].Text);
+                    //
+                    if (di.Exists)
+                    {
+                        di.Delete(true);//may be need to tip user?
+                    }
+                    else if (fi.Exists)
+                    {
+                        fi.Delete();
+                    }
+                }
+                FillList();
+            }
         }
 
         private void selectAllToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            foreach (ListViewItem lvi in listFiles.Items)
+            {
+                lvi.Selected = true;
+            }
         }
 
         private void invertSelectToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            foreach (ListViewItem lvi in listFiles.Items)
+            {
+                lvi.Selected = !lvi.Selected;
+            }
         }
 
         private void selectByTypeToolStripMenuItem_Click(object sender, EventArgs e)
@@ -376,37 +578,49 @@ namespace FW_Zip
 
         private void nameToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
         }
 
         private void typeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            listFiles.ListViewItemSorter = new ListSorter(curDir, ListSorter.TYPE);
+            listFiles.Sort();
         }
 
         private void dateToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            listFiles.ListViewItemSorter = new ListSorter(curDir, ListSorter.DATE);
+            listFiles.Sort();
         }
 
         private void sizeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            listFiles.ListViewItemSorter = new ListSorter(curDir, ListSorter.SIZE);
+            listFiles.Sort();
         }
 
         private void unsortedToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            //Do nothing
         }
 
         private void upOneLevelToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            if (curDir.Parent != null)
+            {
+                curDir = curDir.Parent;
+                EnterPath("");
+            }
+            else
+            {
+                curList = ListType.Computer;
+                FillList();
+            }
+            ChangeMenuStatus();
         }
 
         private void freshToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            FillList();
         }
 
         private void optionsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -466,26 +680,46 @@ namespace FW_Zip
 
         private void buttonUpward_Click(object sender, EventArgs e)
         {
-
+            if (curDir.Parent != null)
+            {
+                curDir = curDir.Parent;
+                EnterPath("");
+            }
+            else
+            {
+                curList = ListType.Computer;
+                FillList();
+            }
+            ChangeMenuStatus();
         }
 
         private void listFiles_SelectedIndexChanged(object sender, EventArgs e)
         {
             statusLblSelected.Text = string.Format(I18N.GetString("{0} object(s) selected"), listFiles.SelectedItems.Count);
-            if (listFiles.SelectedItems.Count > 0)
+            ChangeMenuStatus();
+        }
+
+        private void listFiles_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            ListViewItem lvi = listFiles.GetItemAt(e.X, e.Y);
+            if (lvi != null)
             {
-                //
-               
-            }
-            else
-            {
-                //
+                EnterPath(lvi.Text);
+                ChangeMenuStatus();
             }
         }
 
-        private void listFiles_DoubleClick(object sender,EventArgs e)
+        private void listFiles_MouseClick(object sender, MouseEventArgs e)
         {
-            //
+            if (e.Button == MouseButtons.Right)
+            {
+                ListViewItem lvi = listFiles.GetItemAt(e.X, e.Y);
+                if (lvi != null)
+                {
+                    Point point = PointToClient(listFiles.PointToScreen(new Point(e.X, e.Y)));
+                    listFilesContextMenuStrip.Show(this, point);
+                }
+            }
         }
 
         private void languageSubMenuToolStripMenuItem_Click(object sender, EventArgs e)

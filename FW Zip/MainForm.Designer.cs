@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.menu = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -96,10 +97,13 @@
             this.textAddress = new System.Windows.Forms.TextBox();
             this.buttonUpward = new System.Windows.Forms.Button();
             this.listFiles = new System.Windows.Forms.ListView();
+            this.listFilesContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.toolStripMenuItemOpen = new System.Windows.Forms.ToolStripMenuItem();
             this.menu.SuspendLayout();
             this.toolbar.SuspendLayout();
             this.statusbar.SuspendLayout();
             this.panel1.SuspendLayout();
+            this.listFilesContextMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // menu
@@ -445,6 +449,7 @@
             // 
             // upOneLevelToolStripMenuItem
             // 
+            this.upOneLevelToolStripMenuItem.Enabled = false;
             this.upOneLevelToolStripMenuItem.Name = "upOneLevelToolStripMenuItem";
             this.upOneLevelToolStripMenuItem.Size = new System.Drawing.Size(188, 22);
             this.upOneLevelToolStripMenuItem.Text = "Up One Level";
@@ -704,6 +709,20 @@
             this.listFiles.View = System.Windows.Forms.View.Details;
             this.listFiles.SelectedIndexChanged += new System.EventHandler(this.listFiles_SelectedIndexChanged);
             // 
+            // listFilesContextMenuStrip
+            // 
+            this.listFilesContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItemOpen});
+            this.listFilesContextMenuStrip.Name = "listFilesContextMenuStrip";
+            this.listFilesContextMenuStrip.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
+            this.listFilesContextMenuStrip.Size = new System.Drawing.Size(109, 26);
+            // 
+            // toolStripMenuItemOpen
+            // 
+            this.toolStripMenuItemOpen.Name = "toolStripMenuItemOpen";
+            this.toolStripMenuItemOpen.Size = new System.Drawing.Size(108, 22);
+            this.toolStripMenuItemOpen.Text = "Open";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -726,6 +745,7 @@
             this.statusbar.PerformLayout();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            this.listFilesContextMenuStrip.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -800,6 +820,8 @@
         private System.Windows.Forms.ToolStripMenuItem upOneLevelToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem freshToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem englishToolStripMenuItem;
+        private System.Windows.Forms.ContextMenuStrip listFilesContextMenuStrip;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemOpen;
     }
 }
 

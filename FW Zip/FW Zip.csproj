@@ -99,8 +99,16 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ShellEx.cs" />
+    <Compile Include="Shell\IImageList.cs" />
+    <Compile Include="Shell\IMAGEINFO.cs" />
+    <Compile Include="Shell\IMAGELISTDRAWPARAMS.cs" />
+    <Compile Include="Shell\POINT.cs" />
+    <Compile Include="Shell\RECT.cs" />
+    <Compile Include="Shell\SHFILEINFO.cs" />
     <Compile Include="Util.cs" />
     <Compile Include="Utils\I18N.cs" />
+    <Compile Include="Utils\ListSorter.cs" />
     <EmbeddedResource Include="AboutBox.resx">
       <DependentUpon>AboutBox.cs</DependentUpon>
     </EmbeddedResource>
@@ -135,6 +143,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Content Include="Languages\zh_CN.txt" />
+    <None Include="Readme.md" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">
@@ -167,6 +176,7 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

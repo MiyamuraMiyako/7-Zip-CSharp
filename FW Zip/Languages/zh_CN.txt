@@ -3,8 +3,8 @@ Language=语言选择
 
 File(&F)=文件(&F)
 Open=打开
-Open Inside=在本窗口打开
-Open Outside=在新窗口打开
+Open Inside=在7Zip打开
+Open Outside=在外部资源管理器打开
 Split File...=分割文件...
 Combine File...=合并文件...
 Properties...=属性...
