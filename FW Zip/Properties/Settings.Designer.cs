@@ -25,7 +25,7 @@ namespace FW_Zip.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("zh_CN")]
+        [global::System.Configuration.DefaultSettingValueAttribute("en-US")]
         public string Language {
             get {
                 return ((string)(this["Language"]));
@@ -68,6 +68,30 @@ namespace FW_Zip.Properties {
             }
             set {
                 this["SortMode"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool IsUserSetLanguage {
+            get {
+                return ((bool)(this["IsUserSetLanguage"]));
+            }
+            set {
+                this["IsUserSetLanguage"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string Setting {
+            get {
+                return ((string)(this["Setting"]));
+            }
+            set {
+                this["Setting"] = value;
             }
         }
     }

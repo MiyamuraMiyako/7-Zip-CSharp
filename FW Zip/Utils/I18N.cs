@@ -44,7 +44,7 @@ namespace FW_Zip.Utils
             FileInfo curLng = new FileInfo(@".\Languages\" + Properties.Settings.Default.Language + ".txt");
             trans = new Dictionary<string, string>();
 
-            if (Properties.Settings.Default.Language.Equals("en_US"))
+            if (Properties.Settings.Default.Language.Equals("en-US"))
             {
                 return;
             }

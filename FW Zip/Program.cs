@@ -16,6 +16,11 @@ namespace FW_Zip
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+            if(!Properties.Settings.Default.IsUserSetLanguage)
+            {
+                Properties.Settings.Default.Language = System.Globalization.CultureInfo.CurrentUICulture.TextInfo.CultureName;
+                Properties.Settings.Default.Save();
+            }
             Application.Run(new MainForm());
         }
     }

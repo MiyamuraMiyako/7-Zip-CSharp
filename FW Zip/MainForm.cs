@@ -64,20 +64,33 @@ namespace FW_Zip
         }
 
         //
-        public static ListType curList = ListType.Computer;
-        public static DirectoryInfo curDir = new DirectoryInfo(Environment.ExpandEnvironmentVariables("%SystemDrive%"));
-        public static ImageList smallIcon = new ImageList();
-        public static ImageList largeIcon = new ImageList();
+        static ListType curList = ListType.Computer;
+        static DirectoryInfo curDir = new DirectoryInfo(Environment.ExpandEnvironmentVariables("%SystemDrive%"));
+        static ImageList smallIcon = new ImageList();
+        static ImageList largeIcon = new ImageList();
 
         public MainForm()
         {
             InitializeComponent();
+
             listFiles.MouseDoubleClick += new MouseEventHandler(listFiles_MouseDoubleClick);
             listFiles.MouseClick += new MouseEventHandler(listFiles_MouseClick);
+
             InitLanguageFilesAndFillLanguageMenu();//fill language menu
+
+            Console.WriteLine();
             I18N.LoadLanguage();
             FillList();
             UpdateLanguage();
+
+
+            listFiles.SmallImageList = smallIcon;
+            listFiles.LargeImageList = largeIcon;
+            smallIcon.ColorDepth = ColorDepth.Depth32Bit;
+            largeIcon.ColorDepth = ColorDepth.Depth32Bit;
+            smallIcon.ImageSize = new Size(20, 20);
+            largeIcon.ImageSize = new Size(48, 48);
+
             Log.CleanLog();
         }
 
@@ -242,12 +255,6 @@ namespace FW_Zip
             listFiles.Items.Clear();
             smallIcon.Images.Clear();
             largeIcon.Images.Clear();
-            listFiles.SmallImageList = smallIcon;
-            listFiles.LargeImageList = largeIcon;
-            smallIcon.ColorDepth = ColorDepth.Depth32Bit;
-            largeIcon.ColorDepth = ColorDepth.Depth32Bit;
-            smallIcon.ImageSize = new Size(20, 20);
-            largeIcon.ImageSize = new Size(48, 48);
 
             int index = 0;
             switch (curList)
@@ -273,7 +280,6 @@ namespace FW_Zip
                             GetDiskFreeSpace(drive.Name, out cluster, out bt, out c, out d);
                             //
                             lvi.SubItems.Add(Convert.ToString(cluster * bt));
-
                         }
                         listFiles.Items.Add(lvi);
                     }
@@ -306,6 +312,7 @@ namespace FW_Zip
 
                         if (f.Attributes.HasFlag(FileAttributes.Hidden))
                         {
+                            //add setting to set display hide file.
                             continue;
                         }
                         ListViewItem lvi = new ListViewItem();
@@ -619,8 +626,8 @@ namespace FW_Zip
 
         private void typeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            listFiles.ListViewItemSorter = new ListSorter(curDir, ListSorter.TYPE);
-            listFiles.Sort();
+            //listFiles.ListViewItemSorter = new ListSorter(curDir, ListSorter.TYPE);
+            //listFiles.Sort();
         }
 
         private void dateToolStripMenuItem_Click(object sender, EventArgs e)
@@ -672,7 +679,7 @@ namespace FW_Zip
 
         private void openHelpToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //
+            MessageBox.Show("Do you really need help?","Help",MessageBoxButtons.OK,MessageBoxIcon.Information);
         }
 
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
@@ -799,6 +806,8 @@ namespace FW_Zip
             Properties.Settings.Default.Language = t.Tag.ToString();
             I18N.LoadLanguage();
             UpdateLanguage();
+            Properties.Settings.Default.IsUserSetLanguage = true;
+            Properties.Settings.Default.Save();
         }
     }
 }

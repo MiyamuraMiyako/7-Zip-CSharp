@@ -143,8 +143,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Content Include="Languages\zh_CN.txt" />
-    <None Include="Readme.md" />
+    <Content Include="Languages\zh-CN.txt" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">

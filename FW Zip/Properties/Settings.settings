@@ -3,7 +3,7 @@
   <Profiles />
   <Settings>
     <Setting Name="Language" Type="System.String" Scope="User">
-      <Value Profile="(Default)">zh_CN</Value>
+      <Value Profile="(Default)">en-US</Value>
     </Setting>
     <Setting Name="LastViewDir" Type="System.String" Scope="User">
       <Value Profile="(Default)">DRIVE</Value>
@@ -13,6 +13,12 @@
     </Setting>
     <Setting Name="SortMode" Type="System.Byte" Scope="User">
       <Value Profile="(Default)">1</Value>
+    </Setting>
+    <Setting Name="IsUserSetLanguage" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="Setting" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
     </Setting>
   </Settings>
 </SettingsFile>

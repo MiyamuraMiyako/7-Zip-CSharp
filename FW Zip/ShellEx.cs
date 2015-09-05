@@ -90,8 +90,9 @@ namespace FW_Zip
             string filepath, IconSizeEnum iconsize)
         {
             IntPtr hIcon = IntPtr.Zero;
-            if ( Directory.Exists(filepath) || Regex.IsMatch(filepath, @"[A-Za-z]?:[\\]?"))
+            if (Directory.Exists(filepath) || Regex.IsMatch(filepath, @"^[A-Za-z]?:[\\]?$"))
             {
+                Console.WriteLine(filepath);
                 hIcon = GetIconHandleFromFolderPath(filepath, iconsize);
             }
             else if(File.Exists(filepath))

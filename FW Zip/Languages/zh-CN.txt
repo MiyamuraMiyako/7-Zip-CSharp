@@ -1,4 +1,4 @@
-﻿zh_CN=简体中文
+﻿zh-CN=简体中文
 Language=语言选择
 
 File(&F)=文件(&F)
