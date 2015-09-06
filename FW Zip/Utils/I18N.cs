@@ -19,6 +19,10 @@ namespace FW_Zip.Utils
 
             foreach (FileInfo f in di.EnumerateFiles())
             {
+                if(!f.Name.EndsWith(".txt"))
+                {
+                    continue;
+                }
                 StreamReader sr = new StreamReader(f.OpenRead());
                 while (true)
                 {
@@ -59,7 +63,6 @@ namespace FW_Zip.Utils
             while (true)
             {
                 string line = sr.ReadLine();
-                Console.WriteLine(line);
                 if (line == null)
                 {
                     break;

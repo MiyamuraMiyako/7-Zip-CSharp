@@ -91,34 +91,38 @@ namespace FW_Zip
                 FileInfo fiTo = new FileInfo(textLinkTo.Text);
                 DirectoryInfo diFm = new DirectoryInfo(textLinkFrom.Text);
                 FileInfo fiFm = new FileInfo(textLinkFrom.Text);
-                if (fiTo.Exists)
+
+                if (!fiTo.Exists)
                 {
-                    if (!diFm.Exists && !fiFm.Exists)
+                    MessageBox.Show(I18N.GetString("Target file not exist!"));
+                    return;
+                }
+
+                if (diFm.Exists)
+                {
+                    MessageBox.Show(I18N.GetString("Only file can create hard link!"));
+                    return;
+                }
+
+                if (fiFm.Exists)
+                {
+                    MessageBox.Show(I18N.GetString(diFm.Name + " exist!"));
+                    return;
+                }
+
+                if (fiFm.Directory.Root.Name.ToLower().Equals(fiTo.Directory.Root.Name.ToLower()))
+                {
+                    bool success = CreateHardLink(fiFm.FullName, fiTo.FullName, IntPtr.Zero);
+                    if(!success)
                     {
-                        if (fiFm.Directory.Root.Name.Equals(fiTo.Directory.Root.Name))
-                        {
-                            CreateHardLink(fiFm.FullName, fiTo.FullName, IntPtr.Zero);
-                        }
-                        else
-                        {
-                            MessageBox.Show(I18N.GetString("Must create hard link in same drive!"));
-                        }
-                    }
-                    else
-                    {
-                        MessageBox.Show(I18N.GetString("Target file exist!"));
+                        MessageBox.Show("Create Failed!");
+                        return;
                     }
                 }
                 else
                 {
-                    if(diFm.Exists)
-                    {
-                        MessageBox.Show(I18N.GetString("Only file can create hard link!"));
-                    }
-                    else
-                    {
-                        MessageBox.Show(I18N.GetString(""));
-                    }
+                    MessageBox.Show(I18N.GetString("Must create hard link in same drive!"));
+                    return;
                 }
             }
             else if (radioSymbolLink.Checked)
@@ -133,6 +137,7 @@ namespace FW_Zip
             {
                 //
             }
+            Dispose(true);
         }
     }
 }

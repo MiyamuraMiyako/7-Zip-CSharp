@@ -3,8 +3,8 @@ Language=语言选择
 
 File(&F)=文件(&F)
 Open=打开
-Open Inside=在7Zip打开
-Open Outside=在外部资源管理器打开
+Open Inside=在本窗口打开
+Open Outside=在新窗口打开
 Split File...=分割文件...
 Combine File...=合并文件...
 Properties...=属性...
@@ -42,7 +42,7 @@ Benchmark...=基准测试...
 
 Help(&H)=帮助(&H)
 Open Help...=打开帮助...
-About 7 Zip CSharp...=关于 7 Zip CSharp...
+About FW Zip...=关于 FW Zip...
 
 Add=添加
 Extract=提取
@@ -54,4 +54,4 @@ Info=信息
 
 Name=名称
 
-{0} object(s) selected=选定 {0} 个项目
+{1} object(s) selected=选定 {1} 个项目
