@@ -6,6 +6,7 @@ using System.Resources;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace FW_Zip.Utils
 {
@@ -14,7 +15,7 @@ namespace FW_Zip.Utils
         public static Dictionary<string, string> GetLanguageList()
         {
             Dictionary<string, string> dic = new Dictionary<string, string>();
-            DirectoryInfo di = new DirectoryInfo(@".\Languages");
+            DirectoryInfo di = new DirectoryInfo(Path.Combine(Application.StartupPath, "Languages"));
 
             foreach (FileInfo f in di.EnumerateFiles())
             {
@@ -24,6 +25,11 @@ namespace FW_Zip.Utils
                     string line = sr.ReadLine();
                     if (line != null)
                     {
+                        if(line.StartsWith("#"))
+                        {
+                            continue;
+                        }
+
                         string[] str = Regex.Split(line, "=");
                         if (str.Length == 2 && str[0].Equals(f.Name.Replace(".txt", "")))
                         {
