@@ -35,9 +35,6 @@
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openInsideToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openOutsideToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            this.splitFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.combineFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.propertiesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
@@ -126,9 +123,6 @@
             this.openToolStripMenuItem,
             this.openInsideToolStripMenuItem,
             this.openOutsideToolStripMenuItem,
-            this.toolStripSeparator2,
-            this.splitFileToolStripMenuItem,
-            this.combineFileToolStripMenuItem,
             this.toolStripSeparator3,
             this.propertiesToolStripMenuItem,
             this.toolStripSeparator4,
@@ -168,27 +162,6 @@
             this.openOutsideToolStripMenuItem.Size = new System.Drawing.Size(294, 22);
             this.openOutsideToolStripMenuItem.Text = "Open Outside";
             this.openOutsideToolStripMenuItem.Click += new System.EventHandler(this.openOutsideToolStripMenuItem_Click);
-            // 
-            // toolStripSeparator2
-            // 
-            this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(291, 6);
-            // 
-            // splitFileToolStripMenuItem
-            // 
-            this.splitFileToolStripMenuItem.Enabled = false;
-            this.splitFileToolStripMenuItem.Name = "splitFileToolStripMenuItem";
-            this.splitFileToolStripMenuItem.Size = new System.Drawing.Size(294, 22);
-            this.splitFileToolStripMenuItem.Text = "Split File...";
-            this.splitFileToolStripMenuItem.Click += new System.EventHandler(this.splitFileToolStripMenuItem_Click);
-            // 
-            // combineFileToolStripMenuItem
-            // 
-            this.combineFileToolStripMenuItem.Enabled = false;
-            this.combineFileToolStripMenuItem.Name = "combineFileToolStripMenuItem";
-            this.combineFileToolStripMenuItem.Size = new System.Drawing.Size(294, 22);
-            this.combineFileToolStripMenuItem.Text = "Combine File...";
-            this.combineFileToolStripMenuItem.Click += new System.EventHandler(this.combineFileToolStripMenuItem_Click);
             // 
             // toolStripSeparator3
             // 
@@ -728,6 +701,7 @@
             this.listFiles.TabIndex = 4;
             this.listFiles.UseCompatibleStateImageBehavior = false;
             this.listFiles.View = System.Windows.Forms.View.Details;
+            this.listFiles.SelectedIndexChanged += new System.EventHandler(this.listFiles_SelectedIndexChanged);
             // 
             // MainForm
             // 
@@ -790,9 +764,6 @@
         private System.Windows.Forms.ToolStripMenuItem openToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem openInsideToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem openOutsideToolStripMenuItem;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
-        private System.Windows.Forms.ToolStripMenuItem splitFileToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem combineFileToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
         private System.Windows.Forms.ToolStripMenuItem propertiesToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;

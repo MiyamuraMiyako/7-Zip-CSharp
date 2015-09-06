@@ -28,145 +28,150 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.radioButton1 = new System.Windows.Forms.RadioButton();
-            this.radioButton2 = new System.Windows.Forms.RadioButton();
-            this.radioButton3 = new System.Windows.Forms.RadioButton();
-            this.radioButton4 = new System.Windows.Forms.RadioButton();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
-            this.button4 = new System.Windows.Forms.Button();
-            this.groupBox1.SuspendLayout();
+            this.textLinkFrom = new System.Windows.Forms.TextBox();
+            this.textLinkTo = new System.Windows.Forms.TextBox();
+            this.groupBoxLinkType = new System.Windows.Forms.GroupBox();
+            this.radioDirJunction = new System.Windows.Forms.RadioButton();
+            this.radioDirSymbolLink = new System.Windows.Forms.RadioButton();
+            this.radioSymbolLink = new System.Windows.Forms.RadioButton();
+            this.radioHardLink = new System.Windows.Forms.RadioButton();
+            this.buttonOK = new System.Windows.Forms.Button();
+            this.buttonCancel = new System.Windows.Forms.Button();
+            this.buttonLinkFromBrowse = new System.Windows.Forms.Button();
+            this.buttonLinkToBrowse = new System.Windows.Forms.Button();
+            this.groupBoxLinkType.SuspendLayout();
             this.SuspendLayout();
             // 
-            // textBox1
+            // textLinkFrom
             // 
-            this.textBox1.Location = new System.Drawing.Point(12, 22);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(368, 21);
-            this.textBox1.TabIndex = 0;
-            this.textBox1.Text = "Link From...";
+            this.textLinkFrom.Location = new System.Drawing.Point(12, 22);
+            this.textLinkFrom.Name = "textLinkFrom";
+            this.textLinkFrom.Size = new System.Drawing.Size(368, 21);
+            this.textLinkFrom.TabIndex = 0;
+            this.textLinkFrom.Text = "Link From...";
             // 
-            // textBox2
+            // textLinkTo
             // 
-            this.textBox2.Location = new System.Drawing.Point(12, 63);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(368, 21);
-            this.textBox2.TabIndex = 1;
-            this.textBox2.Text = "Link To...";
+            this.textLinkTo.Location = new System.Drawing.Point(12, 63);
+            this.textLinkTo.Name = "textLinkTo";
+            this.textLinkTo.Size = new System.Drawing.Size(368, 21);
+            this.textLinkTo.TabIndex = 1;
+            this.textLinkTo.Text = "Link To...";
             // 
-            // groupBox1
+            // groupBoxLinkType
             // 
-            this.groupBox1.Controls.Add(this.radioButton4);
-            this.groupBox1.Controls.Add(this.radioButton3);
-            this.groupBox1.Controls.Add(this.radioButton2);
-            this.groupBox1.Controls.Add(this.radioButton1);
-            this.groupBox1.Location = new System.Drawing.Point(12, 114);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(440, 109);
-            this.groupBox1.TabIndex = 2;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Link Type";
+            this.groupBoxLinkType.Controls.Add(this.radioDirJunction);
+            this.groupBoxLinkType.Controls.Add(this.radioDirSymbolLink);
+            this.groupBoxLinkType.Controls.Add(this.radioSymbolLink);
+            this.groupBoxLinkType.Controls.Add(this.radioHardLink);
+            this.groupBoxLinkType.Location = new System.Drawing.Point(12, 114);
+            this.groupBoxLinkType.Name = "groupBoxLinkType";
+            this.groupBoxLinkType.Size = new System.Drawing.Size(449, 109);
+            this.groupBoxLinkType.TabIndex = 2;
+            this.groupBoxLinkType.TabStop = false;
+            this.groupBoxLinkType.Text = "Link Type";
             // 
-            // radioButton1
+            // radioDirJunction
             // 
-            this.radioButton1.AutoSize = true;
-            this.radioButton1.Location = new System.Drawing.Point(6, 20);
-            this.radioButton1.Name = "radioButton1";
-            this.radioButton1.Size = new System.Drawing.Size(77, 16);
-            this.radioButton1.TabIndex = 0;
-            this.radioButton1.TabStop = true;
-            this.radioButton1.Text = "Hard Link";
-            this.radioButton1.UseVisualStyleBackColor = true;
+            this.radioDirJunction.AutoSize = true;
+            this.radioDirJunction.Location = new System.Drawing.Point(6, 86);
+            this.radioDirJunction.Name = "radioDirJunction";
+            this.radioDirJunction.Size = new System.Drawing.Size(131, 16);
+            this.radioDirJunction.TabIndex = 3;
+            this.radioDirJunction.TabStop = true;
+            this.radioDirJunction.Text = "Directory Junction";
+            this.radioDirJunction.UseVisualStyleBackColor = true;
             // 
-            // radioButton2
+            // radioDirSymbolLink
             // 
-            this.radioButton2.AutoSize = true;
-            this.radioButton2.Location = new System.Drawing.Point(6, 42);
-            this.radioButton2.Name = "radioButton2";
-            this.radioButton2.Size = new System.Drawing.Size(119, 16);
-            this.radioButton2.TabIndex = 1;
-            this.radioButton2.TabStop = true;
-            this.radioButton2.Text = "File Symbol Link";
-            this.radioButton2.UseVisualStyleBackColor = true;
+            this.radioDirSymbolLink.AutoSize = true;
+            this.radioDirSymbolLink.Location = new System.Drawing.Point(6, 64);
+            this.radioDirSymbolLink.Name = "radioDirSymbolLink";
+            this.radioDirSymbolLink.Size = new System.Drawing.Size(149, 16);
+            this.radioDirSymbolLink.TabIndex = 2;
+            this.radioDirSymbolLink.TabStop = true;
+            this.radioDirSymbolLink.Text = "Directory Symbol Link";
+            this.radioDirSymbolLink.UseVisualStyleBackColor = true;
             // 
-            // radioButton3
+            // radioSymbolLink
             // 
-            this.radioButton3.AutoSize = true;
-            this.radioButton3.Location = new System.Drawing.Point(6, 64);
-            this.radioButton3.Name = "radioButton3";
-            this.radioButton3.Size = new System.Drawing.Size(149, 16);
-            this.radioButton3.TabIndex = 2;
-            this.radioButton3.TabStop = true;
-            this.radioButton3.Text = "Directory Symbol Link";
-            this.radioButton3.UseVisualStyleBackColor = true;
+            this.radioSymbolLink.AutoSize = true;
+            this.radioSymbolLink.Location = new System.Drawing.Point(6, 42);
+            this.radioSymbolLink.Name = "radioSymbolLink";
+            this.radioSymbolLink.Size = new System.Drawing.Size(119, 16);
+            this.radioSymbolLink.TabIndex = 1;
+            this.radioSymbolLink.TabStop = true;
+            this.radioSymbolLink.Text = "File Symbol Link";
+            this.radioSymbolLink.UseVisualStyleBackColor = true;
             // 
-            // radioButton4
+            // radioHardLink
             // 
-            this.radioButton4.AutoSize = true;
-            this.radioButton4.Location = new System.Drawing.Point(6, 86);
-            this.radioButton4.Name = "radioButton4";
-            this.radioButton4.Size = new System.Drawing.Size(131, 16);
-            this.radioButton4.TabIndex = 3;
-            this.radioButton4.TabStop = true;
-            this.radioButton4.Text = "Directory Junction";
-            this.radioButton4.UseVisualStyleBackColor = true;
+            this.radioHardLink.AutoSize = true;
+            this.radioHardLink.Location = new System.Drawing.Point(6, 20);
+            this.radioHardLink.Name = "radioHardLink";
+            this.radioHardLink.Size = new System.Drawing.Size(77, 16);
+            this.radioHardLink.TabIndex = 0;
+            this.radioHardLink.TabStop = true;
+            this.radioHardLink.Text = "Hard Link";
+            this.radioHardLink.UseVisualStyleBackColor = true;
             // 
-            // button1
+            // buttonOK
             // 
-            this.button1.Location = new System.Drawing.Point(296, 247);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 3;
-            this.button1.Text = "OK";
-            this.button1.UseVisualStyleBackColor = true;
+            this.buttonOK.Location = new System.Drawing.Point(305, 247);
+            this.buttonOK.Name = "buttonOK";
+            this.buttonOK.Size = new System.Drawing.Size(75, 23);
+            this.buttonOK.TabIndex = 3;
+            this.buttonOK.Text = "OK";
+            this.buttonOK.UseVisualStyleBackColor = true;
+            this.buttonOK.Click += new System.EventHandler(this.buttonOK_Click);
             // 
-            // button2
+            // buttonCancel
             // 
-            this.button2.Location = new System.Drawing.Point(377, 247);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
-            this.button2.TabIndex = 4;
-            this.button2.Text = "Cancel";
-            this.button2.UseVisualStyleBackColor = true;
+            this.buttonCancel.Location = new System.Drawing.Point(386, 247);
+            this.buttonCancel.Name = "buttonCancel";
+            this.buttonCancel.Size = new System.Drawing.Size(75, 23);
+            this.buttonCancel.TabIndex = 4;
+            this.buttonCancel.Text = "Cancel";
+            this.buttonCancel.UseVisualStyleBackColor = true;
+            this.buttonCancel.Click += new System.EventHandler(this.buttonCancel_Click);
             // 
-            // button3
+            // buttonLinkFromBrowse
             // 
-            this.button3.Location = new System.Drawing.Point(386, 20);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(66, 23);
-            this.button3.TabIndex = 5;
-            this.button3.Text = "浏览...";
-            this.button3.UseVisualStyleBackColor = true;
+            this.buttonLinkFromBrowse.Location = new System.Drawing.Point(386, 20);
+            this.buttonLinkFromBrowse.Name = "buttonLinkFromBrowse";
+            this.buttonLinkFromBrowse.Size = new System.Drawing.Size(75, 23);
+            this.buttonLinkFromBrowse.TabIndex = 5;
+            this.buttonLinkFromBrowse.Text = "Browse...";
+            this.buttonLinkFromBrowse.UseVisualStyleBackColor = true;
+            this.buttonLinkFromBrowse.Click += new System.EventHandler(this.buttonLinkFromBrowse_Click);
             // 
-            // button4
+            // buttonLinkToBrowse
             // 
-            this.button4.Location = new System.Drawing.Point(386, 61);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(66, 23);
-            this.button4.TabIndex = 6;
-            this.button4.Text = "浏览...";
-            this.button4.UseVisualStyleBackColor = true;
+            this.buttonLinkToBrowse.Location = new System.Drawing.Point(386, 61);
+            this.buttonLinkToBrowse.Name = "buttonLinkToBrowse";
+            this.buttonLinkToBrowse.Size = new System.Drawing.Size(75, 23);
+            this.buttonLinkToBrowse.TabIndex = 6;
+            this.buttonLinkToBrowse.Text = "Browse...";
+            this.buttonLinkToBrowse.UseVisualStyleBackColor = true;
+            this.buttonLinkToBrowse.Click += new System.EventHandler(this.buttonLinkToBrowse_Click);
             // 
             // FileLinkDialog
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(464, 282);
-            this.Controls.Add(this.button4);
-            this.Controls.Add(this.button3);
-            this.Controls.Add(this.button2);
-            this.Controls.Add(this.button1);
-            this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.textBox2);
-            this.Controls.Add(this.textBox1);
+            this.ClientSize = new System.Drawing.Size(473, 282);
+            this.Controls.Add(this.buttonLinkToBrowse);
+            this.Controls.Add(this.buttonLinkFromBrowse);
+            this.Controls.Add(this.buttonCancel);
+            this.Controls.Add(this.buttonOK);
+            this.Controls.Add(this.groupBoxLinkType);
+            this.Controls.Add(this.textLinkTo);
+            this.Controls.Add(this.textLinkFrom);
             this.Name = "FileLinkDialog";
             this.Text = "FileLinkDialog";
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
+            this.Load += new System.EventHandler(this.FileLinkDialog_Load);
+            this.groupBoxLinkType.ResumeLayout(false);
+            this.groupBoxLinkType.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -174,16 +179,16 @@
 
         #endregion
 
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.RadioButton radioButton4;
-        private System.Windows.Forms.RadioButton radioButton3;
-        private System.Windows.Forms.RadioButton radioButton2;
-        private System.Windows.Forms.RadioButton radioButton1;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.TextBox textLinkFrom;
+        private System.Windows.Forms.TextBox textLinkTo;
+        private System.Windows.Forms.GroupBox groupBoxLinkType;
+        private System.Windows.Forms.RadioButton radioDirJunction;
+        private System.Windows.Forms.RadioButton radioDirSymbolLink;
+        private System.Windows.Forms.RadioButton radioSymbolLink;
+        private System.Windows.Forms.RadioButton radioHardLink;
+        private System.Windows.Forms.Button buttonOK;
+        private System.Windows.Forms.Button buttonCancel;
+        private System.Windows.Forms.Button buttonLinkFromBrowse;
+        private System.Windows.Forms.Button buttonLinkToBrowse;
     }
 }

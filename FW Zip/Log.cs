@@ -21,7 +21,7 @@ namespace FW_Zip
             }
             catch(Exception e)
             {
-                //
+                Console.WriteLine(e.Message);
             }
         }
 
@@ -37,7 +37,7 @@ namespace FW_Zip
             }
             catch(Exception e)
             {
-                //
+                Console.WriteLine(e.Message);
             }
         }
     }

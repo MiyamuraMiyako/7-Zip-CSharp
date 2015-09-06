@@ -67,12 +67,14 @@ namespace FW_Zip
         {
             InitializeComponent();
 
+            listFiles.BeforeLabelEdit += new LabelEditEventHandler(listFiles_BeforeLabelEdit);
+            listFiles.AfterLabelEdit += new LabelEditEventHandler(listFiles_AfterLabelEdit);
             listFiles.MouseDoubleClick += new MouseEventHandler(listFiles_MouseDoubleClick);
             listFiles.MouseClick += new MouseEventHandler(listFiles_MouseClick);
+            textAddress.KeyUp += new KeyEventHandler(textAddress_OnKey);
 
             InitLanguageFilesAndFillLanguageMenu();//fill language menu
 
-            Console.WriteLine();
             I18N.LoadLanguage();
             FillList();
             UpdateLanguage();
@@ -107,8 +109,6 @@ namespace FW_Zip
             openToolStripMenuItem.Text = I18N.GetString("Open");
             openInsideToolStripMenuItem.Text = I18N.GetString("Open Inside");
             openOutsideToolStripMenuItem.Text = I18N.GetString("Open Outside");
-            splitFileToolStripMenuItem.Text = I18N.GetString("Split File...");
-            combineFileToolStripMenuItem.Text = I18N.GetString("Combine File...");
             propertiesToolStripMenuItem.Text = I18N.GetString("Properties...");
             createFolderToolStripMenuItem.Text = I18N.GetString("Create Folder...");
             createFileToolStripMenuItem.Text = I18N.GetString("Create File...");
@@ -192,8 +192,8 @@ namespace FW_Zip
                     }
                     break;
                 case ListType.Dir:
-                    DirectoryInfo dir = new DirectoryInfo(curDir.FullName + Path.DirectorySeparatorChar + name);
-                    FileInfo fi = new FileInfo(curDir.FullName + Path.DirectorySeparatorChar + name);
+                    DirectoryInfo dir = new DirectoryInfo(Path.Combine(curDir.FullName , name));
+                    FileInfo fi = new FileInfo(Path.Combine( curDir.FullName , name));
                     if (dir.Exists)
                     {
                         curDir = dir;
@@ -275,7 +275,7 @@ namespace FW_Zip
 
                         listFiles.Items.Add(lvi);
                     }
-                    textAddress.Text = "";
+                    textAddress.Text = string.Empty;
                     break;
                 case ListType.Dir:
                     foreach (DirectoryInfo d in curDir.GetDirectories())
@@ -290,7 +290,7 @@ namespace FW_Zip
 
                         ListViewItem lvi = new ListViewItem();
                         lvi.SubItems[0].Text = d.Name;
-                        lvi.SubItems.Add("");
+                        lvi.SubItems.Add(string.Empty);
                         lvi.SubItems.Add(d.LastWriteTime.ToString());
                         lvi.SubItems.Add(d.CreationTime.ToString());
                         lvi.ImageIndex = index++;
@@ -366,8 +366,6 @@ namespace FW_Zip
                 openToolStripMenuItem.Enabled = true;
                 openInsideToolStripMenuItem.Enabled = true;
                 openOutsideToolStripMenuItem.Enabled = true;
-                splitFileToolStripMenuItem.Enabled = true;
-                combineFileToolStripMenuItem.Enabled = true;
                 propertiesToolStripMenuItem.Enabled = true;
                 linkToolStripMenuItem.Enabled = true;
                 //
@@ -384,8 +382,6 @@ namespace FW_Zip
                 openToolStripMenuItem.Enabled = false;
                 openInsideToolStripMenuItem.Enabled = false;
                 openOutsideToolStripMenuItem.Enabled = false;
-                splitFileToolStripMenuItem.Enabled = false;
-                combineFileToolStripMenuItem.Enabled = false;
                 propertiesToolStripMenuItem.Enabled = false;
                 linkToolStripMenuItem.Enabled = false;
                 //
@@ -402,6 +398,11 @@ namespace FW_Zip
                 moveToToolStripMenuItem.Enabled = false;
                 deleteToolStripMenuItem.Enabled = false;
             }
+        }
+
+        private void ChangeStatusBarStatus()
+        {
+            statusLblSelected.Text = string.Format(I18N.GetString("{0} object(s) selected"), listFiles.SelectedItems.Count);
         }
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
@@ -424,7 +425,7 @@ namespace FW_Zip
             }
             else if (curList == ListType.Dir)
             {
-                Process.Start(curDir.FullName + Path.DirectorySeparatorChar + listFiles.SelectedItems[0].Text);
+                Process.Start(Path.Combine( curDir.FullName , listFiles.SelectedItems[0].Text));
             }
         }
 
@@ -449,7 +450,7 @@ namespace FW_Zip
             }
             else if (curList == ListType.Dir)
             {
-                info.lpFile = (curDir.FullName + Path.DirectorySeparatorChar + listFiles.SelectedItems[0].Text);
+                info.lpFile = (Path.Combine(curDir.FullName, listFiles.SelectedItems[0].Text));
             }
             info.nShow = SW_SHOW;
             info.fMask = SEE_MASK_INVOKEIDLIST;
@@ -461,7 +462,7 @@ namespace FW_Zip
             if (curList == ListType.Dir)
             {
                 string name = Interaction.InputBox("Please input new folder name:", "New Folder", "New Folder");
-                DirectoryInfo di = new DirectoryInfo(curDir.FullName + Path.DirectorySeparatorChar + name);
+                DirectoryInfo di = new DirectoryInfo(Path.Combine(curDir.FullName, name));
                 if (di.Exists)
                 {
                     MessageBox.Show("Directory is exist");
@@ -476,7 +477,7 @@ namespace FW_Zip
             if (curList == ListType.Dir)
             {
                 string name = Interaction.InputBox("Please input new folder name:", "New File", "New File");
-                FileInfo fi = new FileInfo(curDir.FullName + Path.DirectorySeparatorChar + name);
+                FileInfo fi = new FileInfo(Path.Combine(curDir.FullName, name));
                 if (fi.Exists)
                 {
                     MessageBox.Show("File is exist!");
@@ -487,7 +488,16 @@ namespace FW_Zip
 
         private void linkToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Link");
+            FileLinkDialog fld;
+            if (curList == ListType.Computer)
+            {
+                fld = new FileLinkDialog(listFiles.SelectedItems[0].Text);
+            }
+            else
+            {
+                fld = new FileLinkDialog(Path.Combine(curDir.FullName, listFiles.SelectedItems[0].Text));
+            }
+            fld.ShowDialog();
         }
 
         private void exitXToolStripMenuItem_Click(object sender, EventArgs e)
@@ -646,7 +656,7 @@ namespace FW_Zip
             if (curDir.Parent != null)
             {
                 curDir = curDir.Parent;
-                EnterPath("");
+                EnterPath(string.Empty);
             }
             else
             {
@@ -753,7 +763,7 @@ namespace FW_Zip
                 if (curDir.Parent != null)
                 {
                     curDir = curDir.Parent;
-                    EnterPath("");
+                    EnterPath(string.Empty);
                 }
                 else
                 {
@@ -763,11 +773,31 @@ namespace FW_Zip
             }
 
             ChangeMenuAndToolbarStatus();
+            ChangeStatusBarStatus();
+        }
+
+        private void textAddress_OnKey(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                DirectoryInfo di = new DirectoryInfo(textAddress.Text);
+                FileInfo fi = new FileInfo(textAddress.Text);
+                if (di.Exists)
+                {
+                    curList = ListType.Dir;
+                    curDir = di;
+                    EnterPath(string.Empty);
+                }
+                else if (fi.Exists)
+                {
+                    //
+                }
+            }
         }
 
         private void listFiles_SelectedIndexChanged(object sender, EventArgs e)
         {
-            statusLblSelected.Text = string.Format(I18N.GetString("{0} object(s) selected"), listFiles.SelectedItems.Count);
+            ChangeStatusBarStatus();
             ChangeMenuAndToolbarStatus();
         }
 
@@ -778,6 +808,7 @@ namespace FW_Zip
             {
                 EnterPath(lvi.Text);
                 ChangeMenuAndToolbarStatus();
+                ChangeStatusBarStatus();
             }
         }
 
@@ -791,6 +822,32 @@ namespace FW_Zip
                     Point point = PointToClient(listFiles.PointToScreen(new Point(e.X, e.Y)));
                     listFilesContextMenuStrip.Show(this, point);
                 }
+            }
+        }
+
+        private void listFiles_BeforeLabelEdit(object sender, LabelEditEventArgs e)
+        {//Do nothing
+        }
+
+        private void listFiles_AfterLabelEdit(object sender, LabelEditEventArgs e)
+        {
+            if (e.Label != null && !e.Label.Equals(string.Empty))
+            {
+                try
+                {
+                    FileSystem.Rename(Path.Combine(curDir.FullName, listFiles.SelectedItems[0].Text),
+                        Path.Combine(curDir.FullName, e.Label));
+                }
+                catch (Exception ex)
+                {
+                    Log.ToFile("Rename File", ex.Message);
+                    MessageBox.Show("File name contains illegal character!");
+                }
+            }
+            else
+            {
+                e.CancelEdit = true;
+                MessageBox.Show("File name can't empty!");
             }
         }
 

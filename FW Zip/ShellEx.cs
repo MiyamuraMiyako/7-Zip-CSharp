@@ -92,14 +92,13 @@ namespace FW_Zip
             IntPtr hIcon = IntPtr.Zero;
             if (Directory.Exists(filepath) || Regex.IsMatch(filepath, @"^[A-Za-z]?:[\\]?$"))
             {
-                Console.WriteLine(filepath);
                 hIcon = GetIconHandleFromFolderPath(filepath, iconsize);
             }
             else if(File.Exists(filepath))
             {
                 hIcon = GetIconHandleFromFilePath(filepath, iconsize);
             }
-            return getIconFromIconHandle(hIcon);
+            return GetIconFromIconHandle(hIcon);
         }
 
         private static Bitmap getBitmapFromIconHandle(IntPtr hIcon)
@@ -113,7 +112,7 @@ namespace FW_Zip
             return bitmap;
         }
 
-        private static Icon getIconFromIconHandle(IntPtr hIcon)
+        private static Icon GetIconFromIconHandle(IntPtr hIcon)
         {
             if (hIcon == IntPtr.Zero) throw new FileNotFoundException();
             Icon myIcon = Icon.FromHandle(hIcon).Clone() as Icon;
