@@ -57,7 +57,7 @@ namespace FW_Zip
         {
             Computer, Dir, Package
         }
-
+        
         //
         static ListType curList = ListType.Computer;
         static DirectoryInfo curDir = new DirectoryInfo(Environment.ExpandEnvironmentVariables("%SystemDrive%"));
@@ -205,6 +205,7 @@ namespace FW_Zip
                     else
                     {
                         //file open 
+                        
                     }
                     break;
                 case ListType.Package:
@@ -305,7 +306,7 @@ namespace FW_Zip
                     {
                         if (f.Attributes.HasFlag(FileAttributes.Hidden))
                         {
-                            //add setting to set display hide file.
+                            //May be add setting to set display hide file.
                             continue;
                         }
 
@@ -522,7 +523,6 @@ namespace FW_Zip
             if(di.Exists)
             {
                 File.Copy(Path.Combine(curDir.FullName, listFiles.SelectedItems[0].Text), path);
-                //FileSystem.FileCopy(Path.Combine(curDir.FullName, listFiles.SelectedItems[0].Text),path);
             }
         }
 
