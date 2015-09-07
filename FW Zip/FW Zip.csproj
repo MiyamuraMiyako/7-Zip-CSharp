@@ -57,6 +57,7 @@
     <AssemblyOriginatorKeyFile>
     </AssemblyOriginatorKeyFile>
   </PropertyGroup>
+  <PropertyGroup />
   <ItemGroup>
     <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="System" />
@@ -114,6 +115,7 @@
     <Compile Include="Shell\SHFILEINFO.cs" />
     <Compile Include="Util.cs" />
     <Compile Include="Utils\I18N.cs" />
+    <Compile Include="Utils\JunctionPoint.cs" />
     <Compile Include="Utils\ListSorter.cs" />
     <EmbeddedResource Include="AboutBox.resx">
       <DependentUpon>AboutBox.cs</DependentUpon>

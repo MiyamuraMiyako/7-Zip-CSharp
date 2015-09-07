@@ -103,6 +103,7 @@
             this.radioSymbolLink.TabStop = true;
             this.radioSymbolLink.Text = "File Symbol Link";
             this.radioSymbolLink.UseVisualStyleBackColor = true;
+            this.radioSymbolLink.CheckedChanged += new System.EventHandler(this.radioSymbolLink_CheckedChanged);
             // 
             // radioHardLink
             // 

@@ -64,9 +64,6 @@ namespace FW_Zip
         static ImageList smallIcon = new ImageList();
         static ImageList largeIcon = new ImageList();
 
-        private const string MenuName = "Folder\\shell\\NewMenuOption";
-        private const string Command = "Folder\\shell\\NewMenuOption\\command";
-
         public MainForm()
         {
             InitializeComponent();
@@ -520,7 +517,13 @@ namespace FW_Zip
 
         private void copyToToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            string path=Interaction.InputBox("Please input copy target location:", "Copy To");
+            DirectoryInfo di = new DirectoryInfo(path);
+            if(di.Exists)
+            {
+                File.Copy(Path.Combine(curDir.FullName, listFiles.SelectedItems[0].Text), path);
+                //FileSystem.FileCopy(Path.Combine(curDir.FullName, listFiles.SelectedItems[0].Text),path);
+            }
         }
 
         private void moveToToolStripMenuItem_Click(object sender, EventArgs e)
@@ -555,6 +558,7 @@ namespace FW_Zip
             foreach (ListViewItem lvi in listFiles.Items)
             {
                 lvi.Selected = true;
+                listFiles.Focus();
             }
         }
 
@@ -563,6 +567,7 @@ namespace FW_Zip
             foreach (ListViewItem lvi in listFiles.Items)
             {
                 lvi.Selected = !lvi.Selected;
+                listFiles.Focus();
             }
         }
 
@@ -835,6 +840,8 @@ namespace FW_Zip
                 ListViewItem lvi = listFiles.GetItemAt(e.X, e.Y);
                 Point point = PointToClient(listFiles.PointToScreen(new Point(e.X, e.Y)));
                 ContextMenuStrip cms = new ContextMenuStrip();
+                ContextMenu cm = new ContextMenu();
+               
                 if (lvi != null)
                 {
                     cms.Items.Add(I18N.GetString("Open"));
@@ -850,7 +857,13 @@ namespace FW_Zip
                     cms.Items.Add(I18N.GetString("CheckSum"));
                     cms.Items.Add(I18N.GetString("Link..."));
                     //
+                    ((ToolStripDropDownItem)cms.Items[10]).DropDownItems.Add("CRC32");
+                    ((ToolStripDropDownItem)cms.Items[10]).DropDownItems.Add("CRC64");
+                    ((ToolStripDropDownItem)cms.Items[10]).DropDownItems.Add("SHA-1");
+                    ((ToolStripDropDownItem)cms.Items[10]).DropDownItems.Add("SHA256");
+                    //
                     cms.ItemClicked += new ToolStripItemClickedEventHandler(cmsItem_Clicked);
+                    ((ToolStripDropDownItem)cms.Items[10]).DropDownItemClicked += new ToolStripItemClickedEventHandler(cmsItem_Clicked);
                     cms.Show(this, point);
                 }
             }
@@ -897,6 +910,7 @@ namespace FW_Zip
         //ContextMenuStrip Click
         private void cmsItem_Clicked(object sender,ToolStripItemClickedEventArgs e)
         {
+            MessageBox.Show(e.ClickedItem.Text);
         }
     }
 }
