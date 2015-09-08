@@ -57,7 +57,7 @@ namespace FW_Zip
         {
             Computer, Dir, Package
         }
-        
+
         //
         static ListType curList = ListType.Computer;
         static DirectoryInfo curDir = new DirectoryInfo(Environment.ExpandEnvironmentVariables("%SystemDrive%"));
@@ -67,7 +67,7 @@ namespace FW_Zip
         public MainForm()
         {
             InitializeComponent();
-            
+
             listFiles.AfterLabelEdit += new LabelEditEventHandler(listFiles_AfterLabelEdit);
             listFiles.MouseDoubleClick += new MouseEventHandler(listFiles_MouseDoubleClick);
             listFiles.MouseClick += new MouseEventHandler(listFiles_MouseClick);
@@ -89,7 +89,6 @@ namespace FW_Zip
             largeIcon.ImageSize = new Size(48, 48);
 
             Log.CleanLog();
-            //
         }
 
         private void InitLanguageFilesAndFillLanguageMenu()
@@ -160,24 +159,24 @@ namespace FW_Zip
             //
             switch (curList)
             {
-                case ListType.Computer:
-                    listFiles.Columns[0].Text = I18N.GetString("Name");
-                    listFiles.Columns[1].Text = I18N.GetString("Total Size");
-                    listFiles.Columns[2].Text = I18N.GetString("Free Size");
-                    listFiles.Columns[3].Text = I18N.GetString("Type");
-                    listFiles.Columns[4].Text = I18N.GetString("Label");
-                    listFiles.Columns[5].Text = I18N.GetString("File System");
-                    listFiles.Columns[6].Text = I18N.GetString("Cluster Size");
-                    break;
-                case ListType.Dir:
-                    listFiles.Columns[0].Text = I18N.GetString("Name");
-                    listFiles.Columns[1].Text = I18N.GetString("Size");
-                    listFiles.Columns[2].Text = I18N.GetString("Modified");
-                    listFiles.Columns[3].Text = I18N.GetString("Create");
-                    listFiles.Columns[4].Text = I18N.GetString("Type");
-                    break;
-                case ListType.Package:
-                    break;
+            case ListType.Computer:
+                listFiles.Columns[0].Text = I18N.GetString("Name");
+                listFiles.Columns[1].Text = I18N.GetString("Total Size");
+                listFiles.Columns[2].Text = I18N.GetString("Free Size");
+                listFiles.Columns[3].Text = I18N.GetString("Type");
+                listFiles.Columns[4].Text = I18N.GetString("Label");
+                listFiles.Columns[5].Text = I18N.GetString("File System");
+                listFiles.Columns[6].Text = I18N.GetString("Cluster Size");
+                break;
+            case ListType.Dir:
+                listFiles.Columns[0].Text = I18N.GetString("Name");
+                listFiles.Columns[1].Text = I18N.GetString("Size");
+                listFiles.Columns[2].Text = I18N.GetString("Modified");
+                listFiles.Columns[3].Text = I18N.GetString("Create");
+                listFiles.Columns[4].Text = I18N.GetString("Type");
+                break;
+            case ListType.Package:
+                break;
             }
         }
 
@@ -185,31 +184,56 @@ namespace FW_Zip
         {
             switch (curList)
             {
-                case ListType.Computer:
-                    DriveInfo di = new DriveInfo(name);
-                    if (di.IsReady)
+            case ListType.Computer:
+                DriveInfo di = new DriveInfo(name);
+                if (di.IsReady)
+                {
+                    curList = ListType.Dir;
+                    curDir = new DirectoryInfo(name);
+                    FillList();
+                }
+                break;
+            case ListType.Dir:
+                DirectoryInfo dir = new DirectoryInfo(Path.Combine(curDir.FullName, name));
+                FileInfo fi = new FileInfo(Path.Combine(curDir.FullName, name));
+                if (dir.Exists)
+                {
+                    curDir = dir;
+                    FillList();
+                }
+                else
+                {
+                    switch (FileDetect.Detect(fi.FullName))
                     {
-                        curList = ListType.Dir;
-                        curDir = new DirectoryInfo(name);
-                        FillList();
+                    case FileDetect.FileType.ZIP:
+                        MessageBox.Show("zip");
+                        break;
+                    case FileDetect.FileType.GZIP:
+                        MessageBox.Show("gzip");
+                        break;
+                    case FileDetect.FileType.ISO:
+                        MessageBox.Show("iso");
+                        break;
+                    case FileDetect.FileType.RAR:
+                        MessageBox.Show("rar");
+                        break;
+                    case FileDetect.FileType.RAR5:
+                        MessageBox.Show("5");
+                        break;
+                    case FileDetect.FileType.SEVENZIP:
+                        MessageBox.Show("7z");
+                        break;
+                    case FileDetect.FileType.ETC:
+                        Process.Start(fi.FullName);
+                        break;
+                    case FileDetect.FileType.ERROR:
+                        MessageBox.Show("File Detect error!");
+                        break;
                     }
-                    break;
-                case ListType.Dir:
-                    DirectoryInfo dir = new DirectoryInfo(Path.Combine(curDir.FullName, name));
-                    FileInfo fi = new FileInfo(Path.Combine(curDir.FullName, name));
-                    if (dir.Exists)
-                    {
-                        curDir = dir;
-                        FillList();
-                    }
-                    else
-                    {
-                        //file open 
-                        
-                    }
-                    break;
-                case ListType.Package:
-                    break;
+                }
+                break;
+            case ListType.Package:
+                break;
             }
         }
 
@@ -221,31 +245,31 @@ namespace FW_Zip
                 listFiles.Columns.Clear();
                 switch (curList)
                 {
-                    case ListType.Computer:
-                        listFiles.Columns.Add(I18N.GetString("Name"));
-                        listFiles.Columns.Add(I18N.GetString("Total Size"));
-                        listFiles.Columns.Add(I18N.GetString("Free Size"));
-                        listFiles.Columns.Add(I18N.GetString("Type"));
-                        listFiles.Columns.Add(I18N.GetString("Label"));
-                        listFiles.Columns.Add(I18N.GetString("File System"));
-                        listFiles.Columns.Add(I18N.GetString("Cluster Size"));
-                        break;
-                    case ListType.Dir:
-                        listFiles.Columns.Add(I18N.GetString("Name"));
-                        listFiles.Columns.Add(I18N.GetString("Size"));
-                        listFiles.Columns.Add(I18N.GetString("Modified"));
-                        listFiles.Columns.Add(I18N.GetString("Create"));
-                        listFiles.Columns.Add(I18N.GetString("Type"));
-                        break;
-                    case ListType.Package:
-                        listFiles.Columns.Add(I18N.GetString("Name"));
-                        listFiles.Columns.Add(I18N.GetString("Total Size"));
-                        listFiles.Columns.Add(I18N.GetString("Free Size"));
-                        listFiles.Columns.Add(I18N.GetString("Type"));
-                        listFiles.Columns.Add(I18N.GetString("Label"));
-                        listFiles.Columns.Add(I18N.GetString("File System"));
-                        listFiles.Columns.Add(I18N.GetString("Cluster Size"));
-                        break;
+                case ListType.Computer:
+                    listFiles.Columns.Add(I18N.GetString("Name"));
+                    listFiles.Columns.Add(I18N.GetString("Total Size"));
+                    listFiles.Columns.Add(I18N.GetString("Free Size"));
+                    listFiles.Columns.Add(I18N.GetString("Type"));
+                    listFiles.Columns.Add(I18N.GetString("Label"));
+                    listFiles.Columns.Add(I18N.GetString("File System"));
+                    listFiles.Columns.Add(I18N.GetString("Cluster Size"));
+                    break;
+                case ListType.Dir:
+                    listFiles.Columns.Add(I18N.GetString("Name"));
+                    listFiles.Columns.Add(I18N.GetString("Size"));
+                    listFiles.Columns.Add(I18N.GetString("Modified"));
+                    listFiles.Columns.Add(I18N.GetString("Create"));
+                    listFiles.Columns.Add(I18N.GetString("Type"));
+                    break;
+                case ListType.Package:
+                    listFiles.Columns.Add(I18N.GetString("Name"));
+                    listFiles.Columns.Add(I18N.GetString("Total Size"));
+                    listFiles.Columns.Add(I18N.GetString("Free Size"));
+                    listFiles.Columns.Add(I18N.GetString("Type"));
+                    listFiles.Columns.Add(I18N.GetString("Label"));
+                    listFiles.Columns.Add(I18N.GetString("File System"));
+                    listFiles.Columns.Add(I18N.GetString("Cluster Size"));
+                    break;
                 }
             }
 
@@ -256,76 +280,76 @@ namespace FW_Zip
             int index = 0;
             switch (curList)
             {
-                case ListType.Computer:
-                    foreach (DriveInfo drive in DriveInfo.GetDrives())
+            case ListType.Computer:
+                foreach (DriveInfo drive in DriveInfo.GetDrives())
+                {
+                    ListViewItem lvi = new ListViewItem();
+                    lvi.SubItems[0].Text = drive.Name;
+                    if (drive.IsReady)
                     {
-                        ListViewItem lvi = new ListViewItem();
-                        lvi.SubItems[0].Text = drive.Name;
-                        if (drive.IsReady)
-                        {
-                            lvi.SubItems.Add(Util.HommizationSize(drive.TotalSize));
-                            lvi.SubItems.Add(Util.HommizationSize(drive.AvailableFreeSpace));
-                            lvi.SubItems.Add(drive.DriveType.ToString());
-                            lvi.SubItems.Add(drive.VolumeLabel);
-                            lvi.SubItems.Add(drive.DriveFormat);
-                            //
-                            uint cluster, bt, c, d;
-                            GetDiskFreeSpace(drive.Name, out cluster, out bt, out c, out d);
-                            lvi.SubItems.Add(Convert.ToString(cluster * bt));
-                        }
-                        largeIcon.Images.Add(GetLargeIcon(drive.Name));
-                        smallIcon.Images.Add(GetSmallIcon(drive.Name));
-                        lvi.ImageIndex = index++;
-
-                        listFiles.Items.Add(lvi);
+                        lvi.SubItems.Add(Util.HommizationSize(drive.TotalSize));
+                        lvi.SubItems.Add(Util.HommizationSize(drive.AvailableFreeSpace));
+                        lvi.SubItems.Add(drive.DriveType.ToString());
+                        lvi.SubItems.Add(drive.VolumeLabel);
+                        lvi.SubItems.Add(drive.DriveFormat);
+                        //
+                        uint cluster, bt, c, d;
+                        GetDiskFreeSpace(drive.Name, out cluster, out bt, out c, out d);
+                        lvi.SubItems.Add(Convert.ToString(cluster * bt));
                     }
-                    textAddress.Text = string.Empty;
-                    break;
-                case ListType.Dir:
-                    foreach (DirectoryInfo d in curDir.GetDirectories())
+                    largeIcon.Images.Add(GetLargeIcon(drive.Name));
+                    smallIcon.Images.Add(GetSmallIcon(drive.Name));
+                    lvi.ImageIndex = index++;
+
+                    listFiles.Items.Add(lvi);
+                }
+                textAddress.Text = string.Empty;
+                break;
+            case ListType.Dir:
+                foreach (DirectoryInfo d in curDir.GetDirectories())
+                {
+                    if (d.Attributes.HasFlag(FileAttributes.Hidden))
                     {
-                        if (d.Attributes.HasFlag(FileAttributes.Hidden))
-                        {
-                            continue;
-                        }
-
-                        largeIcon.Images.Add(GetLargeIcon(d.FullName));
-                        smallIcon.Images.Add(GetSmallIcon(d.FullName));
-
-                        ListViewItem lvi = new ListViewItem();
-                        lvi.SubItems[0].Text = d.Name;
-                        lvi.SubItems.Add(string.Empty);
-                        lvi.SubItems.Add(d.LastWriteTime.ToString());
-                        lvi.SubItems.Add(d.CreationTime.ToString());
-                        lvi.ImageIndex = index++;
-                        lvi.Tag = d;
-                        listFiles.Items.Add(lvi);
+                        continue;
                     }
 
-                    foreach (FileInfo f in curDir.GetFiles())
+                    largeIcon.Images.Add(GetLargeIcon(d.FullName));
+                    smallIcon.Images.Add(GetSmallIcon(d.FullName));
+
+                    ListViewItem lvi = new ListViewItem();
+                    lvi.SubItems[0].Text = d.Name;
+                    lvi.SubItems.Add(string.Empty);
+                    lvi.SubItems.Add(d.LastWriteTime.ToString());
+                    lvi.SubItems.Add(d.CreationTime.ToString());
+                    lvi.ImageIndex = index++;
+                    lvi.Tag = d;
+                    listFiles.Items.Add(lvi);
+                }
+
+                foreach (FileInfo f in curDir.GetFiles())
+                {
+                    if (f.Attributes.HasFlag(FileAttributes.Hidden))
                     {
-                        if (f.Attributes.HasFlag(FileAttributes.Hidden))
-                        {
-                            //May be add setting to set display hide file.
-                            continue;
-                        }
-
-                        largeIcon.Images.Add(GetLargeIcon(f.FullName));
-                        smallIcon.Images.Add(GetSmallIcon(f.FullName));
-
-                        ListViewItem lvi = new ListViewItem();
-                        lvi.SubItems[0].Text = f.Name;
-                        lvi.SubItems.Add(Util.HommizationSize(f.Length));
-                        lvi.SubItems.Add(f.LastWriteTime.ToString());
-                        lvi.SubItems.Add(f.CreationTime.ToString());
-                        lvi.ImageIndex = index++;
-                        lvi.Tag = f;
-                        listFiles.Items.Add(lvi);
+                        //May be add setting to set display hide file.
+                        continue;
                     }
-                    textAddress.Text = curDir.FullName;
-                    break;
-                case ListType.Package:
-                    break;
+
+                    largeIcon.Images.Add(GetLargeIcon(f.FullName));
+                    smallIcon.Images.Add(GetSmallIcon(f.FullName));
+
+                    ListViewItem lvi = new ListViewItem();
+                    lvi.SubItems[0].Text = f.Name;
+                    lvi.SubItems.Add(Util.HommizationSize(f.Length));
+                    lvi.SubItems.Add(f.LastWriteTime.ToString());
+                    lvi.SubItems.Add(f.CreationTime.ToString());
+                    lvi.ImageIndex = index++;
+                    lvi.Tag = f;
+                    listFiles.Items.Add(lvi);
+                }
+                textAddress.Text = curDir.FullName;
+                break;
+            case ListType.Package:
+                break;
             }
 
             for (int i = 0; i < listFiles.Columns.Count; i++)
@@ -459,7 +483,7 @@ namespace FW_Zip
             if (curList == ListType.Dir)
             {
                 string name = Interaction.InputBox("Please input new folder name:", "New Folder");
-                if(name.Equals(string.Empty))
+                if (name.Equals(string.Empty))
                 {
                     return;
                 }
@@ -479,7 +503,7 @@ namespace FW_Zip
             if (curList == ListType.Dir)
             {
                 string name = Interaction.InputBox("Please input new folder name:", "New File");
-                if(name.Equals(string.Empty))
+                if (name.Equals(string.Empty))
                 {
                     return;
                 }
@@ -518,9 +542,9 @@ namespace FW_Zip
 
         private void copyToToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            string path=Interaction.InputBox("Please input copy target location:", "Copy To");
+            string path = Interaction.InputBox("Please input copy target location:", "Copy To");
             DirectoryInfo di = new DirectoryInfo(path);
-            if(di.Exists)
+            if (di.Exists)
             {
                 File.Copy(Path.Combine(curDir.FullName, listFiles.SelectedItems[0].Text), path);
             }
@@ -808,7 +832,7 @@ namespace FW_Zip
             }
         }
 
-        private void textAddress_GotFocus(object sender,EventArgs e)
+        private void textAddress_GotFocus(object sender, EventArgs e)
         {
             BeginInvoke((Action)delegate
             {
@@ -841,7 +865,7 @@ namespace FW_Zip
                 Point point = PointToClient(listFiles.PointToScreen(new Point(e.X, e.Y)));
                 ContextMenuStrip cms = new ContextMenuStrip();
                 ContextMenu cm = new ContextMenu();
-               
+
                 if (lvi != null)
                 {
                     cms.Items.Add(I18N.GetString("Open"));
@@ -908,7 +932,7 @@ namespace FW_Zip
 
         //////////////////////
         //ContextMenuStrip Click
-        private void cmsItem_Clicked(object sender,ToolStripItemClickedEventArgs e)
+        private void cmsItem_Clicked(object sender, ToolStripItemClickedEventArgs e)
         {
             MessageBox.Show(e.ClickedItem.Text);
         }

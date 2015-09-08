@@ -129,6 +129,7 @@
     <Compile Include="Shell\RECT.cs" />
     <Compile Include="Shell\SHFILEINFO.cs" />
     <Compile Include="Util.cs" />
+    <Compile Include="Utils\FileDetect.cs" />
     <Compile Include="Utils\I18N.cs" />
     <Compile Include="Utils\JunctionPoint.cs" />
     <Compile Include="Utils\ListSorter.cs" />
