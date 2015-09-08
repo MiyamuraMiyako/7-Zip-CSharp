@@ -67,6 +67,8 @@ namespace FW_Zip
         public MainForm()
         {
             InitializeComponent();
+            CompressSetting cs = new CompressSetting();
+            cs.Show();
 
             listFiles.AfterLabelEdit += new LabelEditEventHandler(listFiles_AfterLabelEdit);
             listFiles.MouseDoubleClick += new MouseEventHandler(listFiles_MouseDoubleClick);
@@ -222,6 +224,7 @@ namespace FW_Zip
                         break;
                     case FileDetect.FileType.SEVENZIP:
                         MessageBox.Show("7z");
+                       // SevenZip.Compression.
                         break;
                     case FileDetect.FileType.ETC:
                         Process.Start(fi.FullName);
