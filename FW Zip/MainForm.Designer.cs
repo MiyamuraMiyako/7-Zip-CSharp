@@ -651,10 +651,10 @@
             this.textAddress.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.textAddress.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.FileSystemDirectories;
             this.textAddress.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textAddress.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.textAddress.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.textAddress.Location = new System.Drawing.Point(39, 0);
             this.textAddress.Name = "textAddress";
-            this.textAddress.Size = new System.Drawing.Size(642, 26);
+            this.textAddress.Size = new System.Drawing.Size(642, 29);
             this.textAddress.TabIndex = 1;
             // 
             // buttonUpward

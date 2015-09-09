@@ -42,7 +42,7 @@ namespace FW_Zip
             ref Guid riid,
             out IImageList ppv);
 
-        [DllImport("Shell32.dll")]
+        [DllImport("Shell32.dll", CharSet = CharSet.Auto)]
         public static extern int SHGetFileInfo(
             string pszPath,
             int dwFileAttributes,

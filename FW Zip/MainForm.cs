@@ -11,6 +11,9 @@ using System.Windows.Forms;
 using Microsoft.VisualBasic;
 using Microsoft.Win32;
 using ShellExt;
+using ICSharpCode.SharpZipLib;
+using ICSharpCode.SharpZipLib.Zip;
+using System.Collections;
 
 namespace FW_Zip
 {
@@ -64,6 +67,9 @@ namespace FW_Zip
         static DirectoryInfo curDir = new DirectoryInfo(Environment.ExpandEnvironmentVariables("%SystemDrive%"));
         static ImageList smallIcon = new ImageList();
         static ImageList largeIcon = new ImageList();
+
+        static object archive;
+        static FileDetect.FileType ftype;
 
         public MainForm()
         {
@@ -209,7 +215,11 @@ namespace FW_Zip
                     switch (FileDetect.Detect(fi.FullName))
                     {
                     case FileDetect.FileType.ZIP:
-                        MessageBox.Show("zip");
+                        archive = new ZipFile(fi.FullName);
+                        listFiles.Items.Clear();
+                        curList = ListType.Package;
+                        ftype = FileDetect.FileType.ZIP;
+                        FillList();
                         break;
                     case FileDetect.FileType.GZIP:
                         MessageBox.Show("gzip");
@@ -225,7 +235,7 @@ namespace FW_Zip
                         break;
                     case FileDetect.FileType.SEVENZIP:
                         MessageBox.Show("7z");
-                       // SevenZip.Compression.
+                        // SevenZip.Compression.
                         break;
                     case FileDetect.FileType.ETC:
                         Process.Start(fi.FullName);
@@ -267,12 +277,18 @@ namespace FW_Zip
                     break;
                 case ListType.Package:
                     listFiles.Columns.Add(I18N.GetString("Name"));
-                    listFiles.Columns.Add(I18N.GetString("Total Size"));
-                    listFiles.Columns.Add(I18N.GetString("Free Size"));
-                    listFiles.Columns.Add(I18N.GetString("Type"));
-                    listFiles.Columns.Add(I18N.GetString("Label"));
-                    listFiles.Columns.Add(I18N.GetString("File System"));
-                    listFiles.Columns.Add(I18N.GetString("Cluster Size"));
+                    listFiles.Columns.Add(I18N.GetString("Size"));
+                    listFiles.Columns.Add(I18N.GetString("Packed Size"));
+                    listFiles.Columns.Add(I18N.GetString("Modified"));
+                    listFiles.Columns.Add(I18N.GetString("Attributes"));
+                    listFiles.Columns.Add(I18N.GetString("Encrypted"));
+                    listFiles.Columns.Add(I18N.GetString("Comment"));
+                    listFiles.Columns.Add(I18N.GetString("CRC"));
+                    listFiles.Columns.Add(I18N.GetString("Method"));
+                    listFiles.Columns.Add(I18N.GetString("Host OS"));
+                    listFiles.Columns.Add(I18N.GetString("Version"));
+                    listFiles.Columns.Add(I18N.GetString("Folders"));
+                    listFiles.Columns.Add(I18N.GetString("Files"));
                     break;
                 }
             }
@@ -353,6 +369,27 @@ namespace FW_Zip
                 textAddress.Text = curDir.FullName;
                 break;
             case ListType.Package:
+                switch (ftype)
+                {
+                case FileDetect.FileType.ZIP:
+                    ZipFile zf = (ZipFile)archive;
+                    IEnumerator ie = zf.GetEnumerator();
+                    while (ie.MoveNext())
+                    {
+                        ZipEntry ze = (ZipEntry)ie.Current;
+                        ListViewItem lvi = new ListViewItem();
+                        lvi.Tag = ze.IsDirectory;
+                        lvi.SubItems[0].Text = ze.IsDirectory?Path.GetDirectoryName(ze.Name) :Path.GetFileName(ze.Name);
+                        lvi.SubItems.Add(Util.HommizationSize(ze.Size));
+                        lvi.SubItems.Add(Util.HommizationSize(ze.CompressedSize));
+                        lvi.SubItems.Add(ze.DateTime.ToString());
+                        lvi.SubItems.Add(ze.ExternalFileAttributes.ToString());
+                        lvi.SubItems.Add(ze.IsCrypted?"Y":"N");
+                        lvi.SubItems.Add(ze.Comment);
+                        listFiles.Items.Add(lvi);
+                    }
+                    break;
+                }
                 break;
             }
 
