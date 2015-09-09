@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("7 Zip C Sharp")]
+[assembly: AssemblyTitle("7 Zip Sharp")]
 [assembly: AssemblyDescription("7 Zip C Sharp Version")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("FW Group")]
-[assembly: AssemblyProduct("7 Zip C Sharp")]
+[assembly: AssemblyProduct("7 Zip Sharp")]
 [assembly: AssemblyCopyright("Copyright © GNU LGPL,unRAR restriction,7-Zip(1999-2015 Igor Pavlov),FW Group 2015")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

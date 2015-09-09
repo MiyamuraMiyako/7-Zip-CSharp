@@ -59,22 +59,28 @@
             this.comboUpdateMode = new System.Windows.Forms.ComboBox();
             this.comboPathMode = new System.Windows.Forms.ComboBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.chkboxSFX = new System.Windows.Forms.CheckBox();
-            this.chkboxCompressShareFiles = new System.Windows.Forms.CheckBox();
             this.chkboxDelFilesAfterCompression = new System.Windows.Forms.CheckBox();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.textPwd = new System.Windows.Forms.TextBox();
-            this.textReenterPwd = new System.Windows.Forms.TextBox();
-            this.chkboxShowPwd = new System.Windows.Forms.CheckBox();
-            this.comboEncryptMethod = new System.Windows.Forms.ComboBox();
+            this.chkboxCompressShareFiles = new System.Windows.Forms.CheckBox();
+            this.chkboxSFX = new System.Windows.Forms.CheckBox();
+            this.groupBoxEncryption = new System.Windows.Forms.GroupBox();
             this.chkboxEncryptFilesNames = new System.Windows.Forms.CheckBox();
+            this.comboEncryptMethod = new System.Windows.Forms.ComboBox();
+            this.chkboxShowPwd = new System.Windows.Forms.CheckBox();
+            this.textReenterPwd = new System.Windows.Forms.TextBox();
+            this.textPwd = new System.Windows.Forms.TextBox();
             this.buttonStart = new System.Windows.Forms.Button();
             this.buttonCancel = new System.Windows.Forms.Button();
             this.textParam = new System.Windows.Forms.TextBox();
             this.comboSolidBlockSize = new System.Windows.Forms.ComboBox();
             this.label16 = new System.Windows.Forms.Label();
+            this.groupBoxNTFS = new System.Windows.Forms.GroupBox();
+            this.chkboxStoreFileSecurity = new System.Windows.Forms.CheckBox();
+            this.chkboxStoreAltDatStream = new System.Windows.Forms.CheckBox();
+            this.chkboxHardLink = new System.Windows.Forms.CheckBox();
+            this.chkboxStoreSymbolLink = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
-            this.groupBox2.SuspendLayout();
+            this.groupBoxEncryption.SuspendLayout();
+            this.groupBoxNTFS.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
@@ -88,6 +94,8 @@
             // 
             // textPath
             // 
+            this.textPath.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.textPath.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.FileSystem;
             this.textPath.Location = new System.Drawing.Point(71, 12);
             this.textPath.Name = "textPath";
             this.textPath.Size = new System.Drawing.Size(420, 21);
@@ -101,6 +109,7 @@
             this.buttonBrowse.TabIndex = 2;
             this.buttonBrowse.Text = "Browse...";
             this.buttonBrowse.UseVisualStyleBackColor = true;
+            this.buttonBrowse.Click += new System.EventHandler(this.buttonBrowse_Click);
             // 
             // label2
             // 
@@ -127,6 +136,7 @@
             this.comboArchiveFormat.Name = "comboArchiveFormat";
             this.comboArchiveFormat.Size = new System.Drawing.Size(113, 20);
             this.comboArchiveFormat.TabIndex = 4;
+            this.comboArchiveFormat.SelectedIndexChanged += new System.EventHandler(this.comboArchiveFormat_SelectedIndexChanged);
             // 
             // label3
             // 
@@ -252,8 +262,6 @@
             // 
             this.comboCPUThreads.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboCPUThreads.FormattingEnabled = true;
-            this.comboCPUThreads.Items.AddRange(new object[] {
-            "1"});
             this.comboCPUThreads.Location = new System.Drawing.Point(155, 201);
             this.comboCPUThreads.Name = "comboCPUThreads";
             this.comboCPUThreads.Size = new System.Drawing.Size(64, 20);
@@ -352,7 +360,7 @@
             // label15
             // 
             this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(326, 53);
+            this.label15.Location = new System.Drawing.Point(298, 48);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(77, 12);
             this.label15.TabIndex = 24;
@@ -388,7 +396,7 @@
             // label20
             // 
             this.label20.AutoSize = true;
-            this.label20.Location = new System.Drawing.Point(326, 79);
+            this.label20.Location = new System.Drawing.Point(298, 74);
             this.label20.Name = "label20";
             this.label20.Size = new System.Drawing.Size(65, 12);
             this.label20.TabIndex = 29;
@@ -403,9 +411,9 @@
             "Update and add files",
             "Freshen exists files",
             "Synchronize files"});
-            this.comboUpdateMode.Location = new System.Drawing.Point(451, 50);
+            this.comboUpdateMode.Location = new System.Drawing.Point(423, 45);
             this.comboUpdateMode.Name = "comboUpdateMode";
-            this.comboUpdateMode.Size = new System.Drawing.Size(121, 20);
+            this.comboUpdateMode.Size = new System.Drawing.Size(149, 20);
             this.comboUpdateMode.TabIndex = 30;
             // 
             // comboPathMode
@@ -416,9 +424,9 @@
             "Relative pathnames",
             "Full path names",
             "Absolute path names"});
-            this.comboPathMode.Location = new System.Drawing.Point(451, 76);
+            this.comboPathMode.Location = new System.Drawing.Point(423, 71);
             this.comboPathMode.Name = "comboPathMode";
-            this.comboPathMode.Size = new System.Drawing.Size(121, 20);
+            this.comboPathMode.Size = new System.Drawing.Size(149, 20);
             this.comboPathMode.TabIndex = 31;
             // 
             // groupBox1
@@ -426,32 +434,12 @@
             this.groupBox1.Controls.Add(this.chkboxDelFilesAfterCompression);
             this.groupBox1.Controls.Add(this.chkboxCompressShareFiles);
             this.groupBox1.Controls.Add(this.chkboxSFX);
-            this.groupBox1.Location = new System.Drawing.Point(328, 106);
+            this.groupBox1.Location = new System.Drawing.Point(300, 101);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(244, 89);
+            this.groupBox1.Size = new System.Drawing.Size(272, 89);
             this.groupBox1.TabIndex = 32;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Options";
-            // 
-            // chkboxSFX
-            // 
-            this.chkboxSFX.AutoSize = true;
-            this.chkboxSFX.Location = new System.Drawing.Point(6, 20);
-            this.chkboxSFX.Name = "chkboxSFX";
-            this.chkboxSFX.Size = new System.Drawing.Size(132, 16);
-            this.chkboxSFX.TabIndex = 0;
-            this.chkboxSFX.Text = "Create SFX Archive";
-            this.chkboxSFX.UseVisualStyleBackColor = true;
-            // 
-            // chkboxCompressShareFiles
-            // 
-            this.chkboxCompressShareFiles.AutoSize = true;
-            this.chkboxCompressShareFiles.Location = new System.Drawing.Point(6, 42);
-            this.chkboxCompressShareFiles.Name = "chkboxCompressShareFiles";
-            this.chkboxCompressShareFiles.Size = new System.Drawing.Size(144, 16);
-            this.chkboxCompressShareFiles.TabIndex = 1;
-            this.chkboxCompressShareFiles.Text = "Compress Share Files";
-            this.chkboxCompressShareFiles.UseVisualStyleBackColor = true;
             // 
             // chkboxDelFilesAfterCompression
             // 
@@ -463,59 +451,42 @@
             this.chkboxDelFilesAfterCompression.Text = "Delete Files After Compression";
             this.chkboxDelFilesAfterCompression.UseVisualStyleBackColor = true;
             // 
-            // groupBox2
+            // chkboxCompressShareFiles
             // 
-            this.groupBox2.Controls.Add(this.chkboxEncryptFilesNames);
-            this.groupBox2.Controls.Add(this.comboEncryptMethod);
-            this.groupBox2.Controls.Add(this.chkboxShowPwd);
-            this.groupBox2.Controls.Add(this.textReenterPwd);
-            this.groupBox2.Controls.Add(this.textPwd);
-            this.groupBox2.Controls.Add(this.label19);
-            this.groupBox2.Controls.Add(this.lblReenterPwd);
-            this.groupBox2.Controls.Add(this.label17);
-            this.groupBox2.Location = new System.Drawing.Point(328, 204);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(244, 186);
-            this.groupBox2.TabIndex = 33;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Encryption";
+            this.chkboxCompressShareFiles.AutoSize = true;
+            this.chkboxCompressShareFiles.Location = new System.Drawing.Point(6, 42);
+            this.chkboxCompressShareFiles.Name = "chkboxCompressShareFiles";
+            this.chkboxCompressShareFiles.Size = new System.Drawing.Size(144, 16);
+            this.chkboxCompressShareFiles.TabIndex = 1;
+            this.chkboxCompressShareFiles.Text = "Compress Share Files";
+            this.chkboxCompressShareFiles.UseVisualStyleBackColor = true;
             // 
-            // textPwd
+            // chkboxSFX
             // 
-            this.textPwd.Location = new System.Drawing.Point(6, 39);
-            this.textPwd.Name = "textPwd";
-            this.textPwd.Size = new System.Drawing.Size(232, 21);
-            this.textPwd.TabIndex = 29;
-            this.textPwd.UseSystemPasswordChar = true;
+            this.chkboxSFX.AutoSize = true;
+            this.chkboxSFX.Location = new System.Drawing.Point(6, 20);
+            this.chkboxSFX.Name = "chkboxSFX";
+            this.chkboxSFX.Size = new System.Drawing.Size(132, 16);
+            this.chkboxSFX.TabIndex = 0;
+            this.chkboxSFX.Text = "Create SFX Archive";
+            this.chkboxSFX.UseVisualStyleBackColor = true;
             // 
-            // textReenterPwd
+            // groupBoxEncryption
             // 
-            this.textReenterPwd.Location = new System.Drawing.Point(6, 83);
-            this.textReenterPwd.Name = "textReenterPwd";
-            this.textReenterPwd.Size = new System.Drawing.Size(232, 21);
-            this.textReenterPwd.TabIndex = 30;
-            this.textReenterPwd.UseSystemPasswordChar = true;
-            // 
-            // chkboxShowPwd
-            // 
-            this.chkboxShowPwd.AutoSize = true;
-            this.chkboxShowPwd.Location = new System.Drawing.Point(6, 110);
-            this.chkboxShowPwd.Name = "chkboxShowPwd";
-            this.chkboxShowPwd.Size = new System.Drawing.Size(102, 16);
-            this.chkboxShowPwd.TabIndex = 31;
-            this.chkboxShowPwd.Text = "Show Password";
-            this.chkboxShowPwd.UseVisualStyleBackColor = true;
-            // 
-            // comboEncryptMethod
-            // 
-            this.comboEncryptMethod.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboEncryptMethod.FormattingEnabled = true;
-            this.comboEncryptMethod.Items.AddRange(new object[] {
-            "AES-256"});
-            this.comboEncryptMethod.Location = new System.Drawing.Point(123, 131);
-            this.comboEncryptMethod.Name = "comboEncryptMethod";
-            this.comboEncryptMethod.Size = new System.Drawing.Size(115, 20);
-            this.comboEncryptMethod.TabIndex = 32;
+            this.groupBoxEncryption.Controls.Add(this.chkboxEncryptFilesNames);
+            this.groupBoxEncryption.Controls.Add(this.comboEncryptMethod);
+            this.groupBoxEncryption.Controls.Add(this.chkboxShowPwd);
+            this.groupBoxEncryption.Controls.Add(this.textReenterPwd);
+            this.groupBoxEncryption.Controls.Add(this.textPwd);
+            this.groupBoxEncryption.Controls.Add(this.label19);
+            this.groupBoxEncryption.Controls.Add(this.lblReenterPwd);
+            this.groupBoxEncryption.Controls.Add(this.label17);
+            this.groupBoxEncryption.Location = new System.Drawing.Point(300, 196);
+            this.groupBoxEncryption.Name = "groupBoxEncryption";
+            this.groupBoxEncryption.Size = new System.Drawing.Size(272, 186);
+            this.groupBoxEncryption.TabIndex = 33;
+            this.groupBoxEncryption.TabStop = false;
+            this.groupBoxEncryption.Text = "Encryption";
             // 
             // chkboxEncryptFilesNames
             // 
@@ -527,9 +498,46 @@
             this.chkboxEncryptFilesNames.Text = "Encrypt File names";
             this.chkboxEncryptFilesNames.UseVisualStyleBackColor = true;
             // 
+            // comboEncryptMethod
+            // 
+            this.comboEncryptMethod.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboEncryptMethod.FormattingEnabled = true;
+            this.comboEncryptMethod.Items.AddRange(new object[] {
+            "AES-256"});
+            this.comboEncryptMethod.Location = new System.Drawing.Point(123, 131);
+            this.comboEncryptMethod.Name = "comboEncryptMethod";
+            this.comboEncryptMethod.Size = new System.Drawing.Size(121, 20);
+            this.comboEncryptMethod.TabIndex = 32;
+            // 
+            // chkboxShowPwd
+            // 
+            this.chkboxShowPwd.AutoSize = true;
+            this.chkboxShowPwd.Location = new System.Drawing.Point(6, 110);
+            this.chkboxShowPwd.Name = "chkboxShowPwd";
+            this.chkboxShowPwd.Size = new System.Drawing.Size(102, 16);
+            this.chkboxShowPwd.TabIndex = 31;
+            this.chkboxShowPwd.Text = "Show Password";
+            this.chkboxShowPwd.UseVisualStyleBackColor = true;
+            // 
+            // textReenterPwd
+            // 
+            this.textReenterPwd.Location = new System.Drawing.Point(6, 83);
+            this.textReenterPwd.Name = "textReenterPwd";
+            this.textReenterPwd.Size = new System.Drawing.Size(238, 21);
+            this.textReenterPwd.TabIndex = 30;
+            this.textReenterPwd.UseSystemPasswordChar = true;
+            // 
+            // textPwd
+            // 
+            this.textPwd.Location = new System.Drawing.Point(6, 39);
+            this.textPwd.Name = "textPwd";
+            this.textPwd.Size = new System.Drawing.Size(238, 21);
+            this.textPwd.TabIndex = 29;
+            this.textPwd.UseSystemPasswordChar = true;
+            // 
             // buttonStart
             // 
-            this.buttonStart.Location = new System.Drawing.Point(416, 408);
+            this.buttonStart.Location = new System.Drawing.Point(416, 495);
             this.buttonStart.Name = "buttonStart";
             this.buttonStart.Size = new System.Drawing.Size(75, 23);
             this.buttonStart.TabIndex = 34;
@@ -538,7 +546,7 @@
             // 
             // buttonCancel
             // 
-            this.buttonCancel.Location = new System.Drawing.Point(497, 408);
+            this.buttonCancel.Location = new System.Drawing.Point(497, 495);
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.Size = new System.Drawing.Size(75, 23);
             this.buttonCancel.TabIndex = 35;
@@ -590,17 +598,71 @@
             this.label16.TabIndex = 37;
             this.label16.Text = "Solid Block Size:";
             // 
+            // groupBoxNTFS
+            // 
+            this.groupBoxNTFS.Controls.Add(this.chkboxStoreFileSecurity);
+            this.groupBoxNTFS.Controls.Add(this.chkboxStoreAltDatStream);
+            this.groupBoxNTFS.Controls.Add(this.chkboxHardLink);
+            this.groupBoxNTFS.Controls.Add(this.chkboxStoreSymbolLink);
+            this.groupBoxNTFS.Location = new System.Drawing.Point(14, 403);
+            this.groupBoxNTFS.Name = "groupBoxNTFS";
+            this.groupBoxNTFS.Size = new System.Drawing.Size(240, 120);
+            this.groupBoxNTFS.TabIndex = 39;
+            this.groupBoxNTFS.TabStop = false;
+            this.groupBoxNTFS.Text = "NTFS";
+            // 
+            // chkboxStoreFileSecurity
+            // 
+            this.chkboxStoreFileSecurity.AutoSize = true;
+            this.chkboxStoreFileSecurity.Location = new System.Drawing.Point(7, 89);
+            this.chkboxStoreFileSecurity.Name = "chkboxStoreFileSecurity";
+            this.chkboxStoreFileSecurity.Size = new System.Drawing.Size(138, 16);
+            this.chkboxStoreFileSecurity.TabIndex = 3;
+            this.chkboxStoreFileSecurity.Text = "Store File Security";
+            this.chkboxStoreFileSecurity.UseVisualStyleBackColor = true;
+            // 
+            // chkboxStoreAltDatStream
+            // 
+            this.chkboxStoreAltDatStream.AutoSize = true;
+            this.chkboxStoreAltDatStream.Location = new System.Drawing.Point(7, 67);
+            this.chkboxStoreAltDatStream.Name = "chkboxStoreAltDatStream";
+            this.chkboxStoreAltDatStream.Size = new System.Drawing.Size(186, 16);
+            this.chkboxStoreAltDatStream.TabIndex = 2;
+            this.chkboxStoreAltDatStream.Text = "Store Altemate Data Streams";
+            this.chkboxStoreAltDatStream.UseVisualStyleBackColor = true;
+            // 
+            // chkboxHardLink
+            // 
+            this.chkboxHardLink.AutoSize = true;
+            this.chkboxHardLink.Location = new System.Drawing.Point(7, 44);
+            this.chkboxHardLink.Name = "chkboxHardLink";
+            this.chkboxHardLink.Size = new System.Drawing.Size(120, 16);
+            this.chkboxHardLink.TabIndex = 1;
+            this.chkboxHardLink.Text = "Store Hard Links";
+            this.chkboxHardLink.UseVisualStyleBackColor = true;
+            // 
+            // chkboxStoreSymbolLink
+            // 
+            this.chkboxStoreSymbolLink.AutoSize = true;
+            this.chkboxStoreSymbolLink.Location = new System.Drawing.Point(7, 21);
+            this.chkboxStoreSymbolLink.Name = "chkboxStoreSymbolLink";
+            this.chkboxStoreSymbolLink.Size = new System.Drawing.Size(144, 16);
+            this.chkboxStoreSymbolLink.TabIndex = 0;
+            this.chkboxStoreSymbolLink.Text = "Store Symbolic Links";
+            this.chkboxStoreSymbolLink.UseVisualStyleBackColor = true;
+            // 
             // CompressSetting
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(587, 442);
+            this.ClientSize = new System.Drawing.Size(588, 535);
+            this.Controls.Add(this.groupBoxNTFS);
             this.Controls.Add(this.comboSolidBlockSize);
             this.Controls.Add(this.label16);
             this.Controls.Add(this.textParam);
             this.Controls.Add(this.buttonCancel);
             this.Controls.Add(this.buttonStart);
-            this.Controls.Add(this.groupBox2);
+            this.Controls.Add(this.groupBoxEncryption);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.comboPathMode);
             this.Controls.Add(this.comboUpdateMode);
@@ -638,8 +700,10 @@
             this.Load += new System.EventHandler(this.CompressSetting_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
+            this.groupBoxEncryption.ResumeLayout(false);
+            this.groupBoxEncryption.PerformLayout();
+            this.groupBoxNTFS.ResumeLayout(false);
+            this.groupBoxNTFS.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -681,7 +745,7 @@
         private System.Windows.Forms.CheckBox chkboxDelFilesAfterCompression;
         private System.Windows.Forms.CheckBox chkboxCompressShareFiles;
         private System.Windows.Forms.CheckBox chkboxSFX;
-        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.GroupBox groupBoxEncryption;
         private System.Windows.Forms.CheckBox chkboxEncryptFilesNames;
         private System.Windows.Forms.ComboBox comboEncryptMethod;
         private System.Windows.Forms.CheckBox chkboxShowPwd;
@@ -692,5 +756,10 @@
         private System.Windows.Forms.TextBox textParam;
         private System.Windows.Forms.ComboBox comboSolidBlockSize;
         private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.GroupBox groupBoxNTFS;
+        private System.Windows.Forms.CheckBox chkboxStoreFileSecurity;
+        private System.Windows.Forms.CheckBox chkboxStoreAltDatStream;
+        private System.Windows.Forms.CheckBox chkboxHardLink;
+        private System.Windows.Forms.CheckBox chkboxStoreSymbolLink;
     }
 }

@@ -139,6 +139,12 @@
     <Compile Include="Utils\I18N.cs" />
     <Compile Include="Utils\JunctionPoint.cs" />
     <Compile Include="Utils\ListSorter.cs" />
+    <Compile Include="WorkingDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WorkingDialog.Designer.cs">
+      <DependentUpon>WorkingDialog.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="AboutBox.resx">
       <DependentUpon>AboutBox.cs</DependentUpon>
     </EmbeddedResource>
@@ -166,6 +172,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="WorkingDialog.resx">
+      <DependentUpon>WorkingDialog.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -209,7 +218,12 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\ShellExt\ShellExt.csproj">
+      <Project>{63e752cc-44da-419c-bd7c-385767db1885}</Project>
+      <Name>ShellExt</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

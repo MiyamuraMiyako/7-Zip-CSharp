@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Microsoft.VisualBasic;
 using Microsoft.Win32;
+using ShellExt;
 
 namespace FW_Zip
 {
@@ -67,8 +68,8 @@ namespace FW_Zip
         public MainForm()
         {
             InitializeComponent();
-            CompressSetting cs = new CompressSetting();
-            cs.Show();
+            WorkingDialog wd = new WorkingDialog();
+            wd.Show();
 
             listFiles.AfterLabelEdit += new LabelEditEventHandler(listFiles_AfterLabelEdit);
             listFiles.MouseDoubleClick += new MouseEventHandler(listFiles_MouseDoubleClick);

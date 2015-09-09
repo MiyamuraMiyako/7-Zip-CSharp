@@ -12,7 +12,7 @@ namespace ShellExt
 {
     [ComVisible(true)]
     [COMServerAssociation(AssociationType.AllFiles)]
-    class TestMenu : SharpContextMenu
+    class ShellMenu : SharpContextMenu
     {
         protected override bool CanShowMenu()
         {
@@ -24,8 +24,8 @@ namespace ShellExt
             ContextMenuStrip cms = new ContextMenuStrip();
             //this.SelectedItemPaths.ToString();
             
-            cms.Items.Add(this.SelectedItemPaths.ToList()[0]);
-            cms.Items.Add("Decompress");
+            cms.Items.Add("7-Zip Sharp");
+            cms.Items.Add("File Check Sum");
             cms.Click += new EventHandler(ContextMenu_Clicked);
             return cms;
         }
